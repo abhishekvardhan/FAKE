@@ -1,0 +1,11 @@
+cust_name,qno,question,answer,marks
+9923,1,Tell me about yourself!,error,0
+9923,2,What is the main difference between Python 2 and Python 3?,Python 2010 has more features,2
+9923,3,What's the main reason why Python 3 is not backwards compatible with Python 2?,Python 3 has more features,5
+9923,4,"In Python, what's the purpose of the __init__ method in a class?",deputy speaker constructor,2
+9923,5,What's the difference between the 'is' and '==' operators in Python?,double equals to is used to check the value level is equals to check object level,7
+9923,6,What's the main difference between a List and a Tuple in Python?,please mutable Apple is invertible,2
+9923,7,What's the purpose of the 'finally' block in a Java try-catch statement?,finally who is generally used to close all the resources,6
+9923,8,What's the difference between the 'checked' and 'unchecked' exceptions in Java?,sex video sex,0
+9923,9,What's the difference between the 'checked' and 'unchecked' exceptions in Java?,check is for the checking the exception and check it is for unchecked exception,6
+9923,10,What's the purpose of the 'JOIN' clause in SQL?,,

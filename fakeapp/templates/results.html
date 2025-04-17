@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interview Results</title>
+    <style>
+        table {
+            width: 80%;
+            margin: auto;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #7d0808;
+            text-align: left;
+        }
+        th {
+            background-color: #cd1515;
+        }
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h2>Interview Summary</h2>
+    <table>
+        <tr>
+            <th>Q. No</th>
+            <th>Question</th>
+            <th>Answer</th>
+            <th>Marks</th>
+        </tr>
+        {% for row in table_data %}
+        <tr>
+            
+            <td>{{ forloop.counter }}</td>
+          
+            <td>{{ row.Question }}</td>
+            <td>{{ row.Answer }}</td>
+            <td>{{ row.Score }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

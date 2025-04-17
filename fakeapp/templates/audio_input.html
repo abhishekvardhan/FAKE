@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Device Selection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-top: 0;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        select {
+            width: 100%;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        button {
+            background-color: #e74c3c;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #e74c3c;
+        }
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Audio Device Selection</h1>
+        
+        <div class="form-group">
+            <label for="microphoneSelect">Select Microphone Input:</label>
+            <select id="microphoneSelect">
+                <option value="">Loading microphones...</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="speakerSelect">Select Speaker Output:</label>
+            <select id="speakerSelect">
+                <option value="">Loading speakers...</option>
+            </select>
+        </div>
+        
+        <button id="submitBtn">Submit</button>
+
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const micSelect = document.getElementById('microphoneSelect');
+            const speakerSelect = document.getElementById('speakerSelect');
+            const submitBtn = document.getElementById('submitBtn');
+            const statusDiv = document.getElementById('status');
+            
+            // Function to get available audio devices
+            async function getAudioDevices() {
+                try {
+                    // Request permission to access media devices
+                    await navigator.mediaDevices.getUserMedia({ audio: true });
+                    
+                    // Get list of all media devices
+                    const devices = await navigator.mediaDevices.enumerateDevices();
+                    
+                    // Clear placeholders
+                    micSelect.innerHTML = '';
+                    speakerSelect.innerHTML = '';
+                    
+                    // Filter and add input (microphone) devices
+                    const microphones = devices.filter(device => device.kind === 'audioinput');
+                    if (microphones.length === 0) {
+                        micSelect.innerHTML = '<option value="">No microphones detected</option>';
+                    } else {
+                        microphones.forEach(mic => {
+                            const option = document.createElement('option');
+                            option.value = mic.deviceId;
+                            option.text = mic.label || `Microphone ${mic.deviceId.slice(0, 5)}...`;
+                            micSelect.appendChild(option);
+                        });
+                    }
+                    
+                    // Filter and add output (speaker) devices
+                    const speakers = devices.filter(device => device.kind === 'audiooutput');
+                    if (speakers.length === 0) {
+                        speakerSelect.innerHTML = '<option value="">No speakers detected</option>';
+                    } else {
+                        speakers.forEach(speaker => {
+                            const option = document.createElement('option');
+                            option.value = speaker.deviceId;
+                            option.text = speaker.label || `Speaker ${speaker.deviceId.slice(0, 5)}...`;
+                            speakerSelect.appendChild(option);
+                        });
+                    }
+                    
+                    statusDiv.textContent = 'Audio devices detected. Please make your selection.';
+                } catch (error) {
+                    console.error('Error accessing media devices:', error);
+                    statusDiv.textContent = 'Error: ' + error.message;
+                }
+            }
+            
+            // Initialize device detection
+            getAudioDevices();
+            
+            // Handle form submission
+            submitBtn.addEventListener('click', function() {
+                const selectedMic = micSelect.value;
+                const selectedSpeaker = speakerSelect.value;
+                
+                // Check if devices are selected
+                if (!selectedMic) {
+                    alert('Please select a microphone input device.');
+                    return;
+                }
+                
+                if (!selectedSpeaker) {
+                    alert('Please select a speaker output device.');
+                    return;
+                }
+                
+                // Create data object to send
+                const audioSettings = {
+                    microphone: {
+                        deviceId: selectedMic,
+                        label: micSelect.options[micSelect.selectedIndex].text
+                    },
+                    speaker: {
+                        deviceId: selectedSpeaker,
+                        label: speakerSelect.options[speakerSelect.selectedIndex].text
+                    }
+                };
+                
+                // Here you would normally send this data to your server
+                // For demonstration, we'll log it and show in the status div
+                console.log('Audio settings:', audioSettings);
+                
+                
+                
+                fetch('/interview/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(audioSettings)
+                })
+                
+                .then(response => response.json())
+                .then(data => {
+                    statusDiv.textContent = 'Settings saved successfully!';
+                    setTimeout(() => {
+                        window.location.href = data.redirect_url || '/interview/';
+                    }, 1000);
+                })
+                .catch(error => {
+                    statusDiv.textContent = 'Error saving settings: ' + error.message;
+                });
+                
+            });
+        });
+    </script>
+</body>
+</html>
