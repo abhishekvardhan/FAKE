@@ -23,7 +23,7 @@ import os
 SECRET_KEY = "django-insecure-_4*-ujgz-a5kki*6mj07(7ai$nyu%obd4sh(heeb33p4c^p1fa"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -128,5 +128,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+pip freeze > requirements.txt
 import mimetypes
 mimetypes.add_type("audio/mpeg", ".mp3", True)
