@@ -21,3 +21,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("fakeapp.urls")),
 ]
+
+# if settings.DEBUG:
+#     urlpatterns += static(settings.STATIC_URL, document_root=os.path.join(BASE_DIR, "fakeapp/static"))

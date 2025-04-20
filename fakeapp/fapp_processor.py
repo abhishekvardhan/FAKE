@@ -162,6 +162,7 @@ def audio_processor(INPUT_FILENAME,serial,counter):
     if(counter<max_questions):
         if counter==0:
             global prompt1
+            print("prompt actual  is "+prompt1)
             prompt=update_prompt_with_skills(prompt1,serial)
             print(prompt)
             next_question=fetch_question(prompt,serial)
