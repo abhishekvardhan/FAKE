@@ -22,7 +22,7 @@ def fetch_prompt():
     with open("prompt.txt", "r") as file:
         prompt = file.read()
     return prompt
-max_questions=5
+
 llm=ChatGroq(model_name="llama3-70b-8192",temperature=0.7)
 store={}
 
@@ -57,7 +57,7 @@ def get_skills_by_session_id(session_id):
 
         interviewee = IntervieweeDetails.objects.get(session_id=session_id)
         # getch max questions from interviewee
-        global max_questions
+
         max_questions = interviewee.question_count      
         skills = interviewee.skills.all()  
         skill_list = [skill.skill_name for skill in skills]
@@ -70,7 +70,7 @@ def update_prompt_with_skills(prompt,session_id):
     skills, total_questions = get_skills_by_session_id(session_id)
     if skills:
         skill_str = ", ".join(skills)
-        replacements = {"thetopics": skill_str,"thismany": str(total_questions)}
+        replacements = {"thetopics": skill_str,"thismany": str(total_questions+1)}
         updated_prompt = prompt
         for old, new in replacements.items():
             updated_prompt = updated_prompt.replace(old, new)
@@ -123,12 +123,12 @@ def evaluate_answer(question, answer):
     except ValueError:
         return 0
 
-def audio_processor(INPUT_FILENAME,serial,counter):
+def audio_processor(INPUT_FILENAME,serial,counter,max_questions):
     result=audio_to_text(INPUT_FILENAME)
     
     new_row={}
 
-    if(counter<max_questions):
+    if(counter<=max_questions):
         if counter==0:
             prompt=fetch_prompt()
             print(" actual prompt is "+prompt)

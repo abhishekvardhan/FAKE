@@ -1,4 +1,4 @@
-
+import string
 import os
 from django.shortcuts import render
 from gtts import gTTS
@@ -10,31 +10,13 @@ import random
 from . import fapp_processor
 from fakeapp.models import InterviewResponse,IntervieweeDetails, IntervieweeSkill
 from urllib.parse import unquote
-counter = 0  # Ensure counter is defined
-MAX_CYCLES = 5
+# Ensure counter is defined
+
 
 def get_skills(request):
     
     return render(request, 'temp1.html')
 
-
-# @csrf_exempt
-# def audio_settings(request):
-#     if request.method == "POST" :
-#         # Get the selected skills from the form
-#         name = request.POST.get("Name")
-#         print("Name:", name)
-#         selected_skills = request.POST.getlist("skills")
-#         print("Selected skills:", selected_skills)
-#         no_of_questions=request.POST.get("question_count")
-#         print("No of questions:", no_of_questions)
-#         session_id=str(random.randint(1000, 9999))
-#         request.session["session_id"] = session_id 
-#         MAX_CYCLES=int(no_of_questions)
-#         Intervieweeobj = IntervieweeDetails.objects.create(name=name, session_id=session_id, question_count=MAX_CYCLES)
-#         for skill in selected_skills:
-#             IntervieweeSkill.objects.create(interviewee=Intervieweeobj, skill_name=skill)
-#         return render(request, 'audio_input.html')
 
 @csrf_exempt
 def index(request):
@@ -42,6 +24,7 @@ def index(request):
         #pass the audio settings here
         # Generate the audio file using gTTS
         name = request.POST.get("Name")
+        request.session.flush()
         print("Name:", name)
         selected_skills = request.POST.getlist("skills")
         print("Selected skills:", selected_skills)
@@ -50,8 +33,8 @@ def index(request):
         print("No of questions:", no_of_questions)
         session_id=str(''.join(random.choices(string.ascii_letters + string.digits, k=6)))
         request.session["session_id"] = session_id
-        global MAX_CYCLES 
         MAX_CYCLES=int(no_of_questions)
+        request.session["MAX_CYCLES"]=MAX_CYCLES
         Intervieweeobj = IntervieweeDetails.objects.create(name=name, session_id=session_id, question_count=MAX_CYCLES+1)
         for skill in selected_skills:
             IntervieweeSkill.objects.create(interviewee=Intervieweeobj, skill_name=skill)
@@ -71,19 +54,21 @@ def index(request):
 
 @csrf_exempt
 def upload_audio(request):
-    global counter
     if request.method == "POST" and request.FILES.get("audio"):
         audio_file = request.FILES["audio"]
         session_id=request.session.get("session_id", "unknown_session")
+        if request.session.get("counter") is None:
+            request.session["counter"] = 0
+        counter=request.session["counter"]
+        MAX_CYCLES= request.session["MAX_CYCLES"]
         print(session_id)
         save_path = os.path.join(settings.MEDIA_ROOT, f"{session_id}_response_{counter}.wav")
 
-        # Save uploaded file
 
         with open(save_path, "wb") as f:
             for chunk in audio_file.chunks():
                 f.write(chunk)
-        question,audio_file,prev_ans,marks=fapp_processor.audio_processor(save_path,session_id,counter)
+        question,audio_file,prev_ans,marks=fapp_processor.audio_processor(save_path,session_id,counter,MAX_CYCLES)
         if counter > 0: 
             try:
                 prev_response = InterviewResponse.objects.get(
@@ -121,15 +106,17 @@ def upload_audio(request):
             "session_id": session_id,
         }
         
-        counter += 1
+        request.session["counter"]=counter+1
         return JsonResponse(response_data)
 
     return JsonResponse({"error": "Invalid request"}, status=400)
     
 @csrf_exempt
 def result(request):
+
     serial=request.POST.get("serial")
     print("serial is "+serial)
+    request.session.flush()
     df_results=fapp_processor.get_results_from_db(serial)
     request.session['result_data'] = df_results
     print("Result data brfore:", df_results)
@@ -138,4 +125,5 @@ def result(request):
 def show_result(request):
     result_data = request.session.get('result_data', [])
     print("Result data:", result_data)
+    
     return render(request, 'results.html', {"table_data": result_data})
