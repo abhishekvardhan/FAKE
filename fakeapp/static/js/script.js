@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     popup.style.zIndex = "1000";
     popup.style.display = "none";
     popup.textContent = "Face not detected! Please position yourself in front of the camera.";
-    
+
     // Add close button
     const closeButton = document.createElement("button");
     closeButton.textContent = "OK";
@@ -42,11 +42,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     closeButton.style.padding = "5px 10px";
     closeButton.style.display = "block";
     closeButton.style.margin = "10px auto 0";
-    closeButton.addEventListener("click", function() {
+    closeButton.addEventListener("click", function () {
         popup.style.display = "none";
         popupShown = false;
     });
-    
+
     popup.appendChild(closeButton);
     document.body.appendChild(popup);
 
@@ -92,11 +92,14 @@ document.addEventListener("DOMContentLoaded", async function () {
     let button = document.getElementById("controlButton");
     let audioPlayer = document.getElementById("audio_player");
     let displayText = document.getElementById("displayText");
+    let questionTitle = document.getElementById("displayquestion");
     let audioFileUrl = button.dataset.audioUrl;
     let mediaRecorder;
     let audioChunks = [];
     let audioStream;
     let myserial;
+    //  show questio-title class  controlButton is not equal to "Start" or "Finish" 
+
 
     // List available audio devices for debugging
     navigator.mediaDevices.enumerateDevices()
@@ -120,6 +123,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             audioPlayer.src = audioFileUrl;
             audioPlayer.load();
             audioPlayer.play();
+            questionTitle.innerText = "Question";
             displayText.innerText = "Tell Me about yourself!";
             button.innerText = "Record";
         } else if (button.innerText === "Record") {
@@ -165,7 +169,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                         const data = await response.json();
                         displayText.innerText = data.text;
                         console.log(data.audio_url);
-                        myserial=data.session_id;
+                        myserial = data.session_id;
                         console.log("Session ID:", myserial);
                         audioPlayer.src = data.audio_url;
                         audioPlayer.load();
@@ -191,7 +195,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                         displayText.innerText = "Error uploading audio.";
                         displayText.style.color = "red";
                     }
-                    
+
                     audioStream.getTracks().forEach(track => track.stop());
 
                 };
@@ -228,7 +232,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
         else if (button.innerText === "Finish") {
             console.log("Finishing process...");
-
+            questionTitle.innerText = "You sucessfully completed the interview!";
+            displayText.innerText = "Thank you for your time!";
             try {
                 const formData = new FormData();
                 formData.append("serial", myserial);
@@ -244,13 +249,14 @@ document.addEventListener("DOMContentLoaded", async function () {
                     window.location.href = data.redirect_url;
                 } else {
                     console.error("Redirect URL not received.");
-                }  
-        }
-        catch (error) { 
-            console.error("Error fetching result:", error);
+                }
+            }
+            catch (error) {
+                console.error("Error fetching result:", error);
 
+            }
         }
-}});
+    });
     function encodeWAV(audioBuffer) {
         const numChannels = audioBuffer.numberOfChannels;
         const sampleRate = audioBuffer.sampleRate;

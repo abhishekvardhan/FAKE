@@ -1,6 +1,0 @@
-cust_name,qno,question,answer,marks
-4165,1,Tell me about yourself!,Static and dynamic typing I am not familiar with this concept,0
-4165,2,What is the purpose of the 'self' parameter in a Python class method?,Ashish used to point to its own object,6
-4165,3,How do you connect to a database in Python?,we can use MySQL connector library in Python,6
-4165,4,What is the purpose of the COMMIT command in SQL?,committee is used to push the query and execute the query into the database,5
-4165,5,What is the difference between the WHERE and HAVING clauses in SQL?,,

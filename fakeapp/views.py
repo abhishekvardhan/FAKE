@@ -48,11 +48,11 @@ def index(request):
         no_of_questions=request.POST.get("question_count")
 
         print("No of questions:", no_of_questions)
-        session_id=str(random.randint(1000, 9999))
+        session_id=str(''.join(random.choices(string.ascii_letters + string.digits, k=6)))
         request.session["session_id"] = session_id
         global MAX_CYCLES 
-        MAX_CYCLES=int(no_of_questions)+1
-        Intervieweeobj = IntervieweeDetails.objects.create(name=name, session_id=session_id, question_count=MAX_CYCLES)
+        MAX_CYCLES=int(no_of_questions)
+        Intervieweeobj = IntervieweeDetails.objects.create(name=name, session_id=session_id, question_count=MAX_CYCLES+1)
         for skill in selected_skills:
             IntervieweeSkill.objects.create(interviewee=Intervieweeobj, skill_name=skill)
         audio_file_path = os.path.join(settings.MEDIA_ROOT, "recorded_audi1.mp3")
@@ -105,7 +105,7 @@ def upload_audio(request):
         )
         show_text = f"{counter+1}. {question}"
         # print("Audio file URL:", audio_file_url)
-        if counter >= MAX_CYCLES - 1:
+        if counter >= MAX_CYCLES :
             show_text="Thank you for your time!"
             audio_file="last.mp3"
         relative_media_url = os.path.join(settings.MEDIA_URL, audio_file)
@@ -116,7 +116,7 @@ def upload_audio(request):
         response_data = {
             "audio_url":audio_file_url,
             "text": show_text,
-            "button_text": "Record" if counter < MAX_CYCLES - 1 else "Finish",
+            "button_text": "Record" if counter < MAX_CYCLES  else "Finish",
             "is_last": counter >= MAX_CYCLES - 1, 
             "session_id": session_id,
         }
