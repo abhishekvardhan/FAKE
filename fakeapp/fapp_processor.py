@@ -18,6 +18,9 @@ from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.chat_history import InMemoryChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 os.environ["GROQ_API_KEY"]="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"
+
+import logging
+logger = logging.getLogger('simple_logger')
 def fetch_prompt():
     with open("prompt.txt", "r") as file:
         prompt = file.read()
@@ -42,14 +45,14 @@ def restructured_response(ai_response):
         json_str = match.group(0)  # Extract matched JSON string
         try:
             json_data = json.loads(json_str) 
-            print(json_data)
+            logger.info(json_data)
             # Parse JSON
             return json_data
         except json.JSONDecodeError:
-            print("Invalid JSON format.")
+            logger.info("Invalid JSON format.")
             return None
     else:
-        print("No JSON found in response.")
+        logger.info("No JSON found in response.")
         return None
 
 def get_skills_by_session_id(session_id):
@@ -64,7 +67,7 @@ def get_skills_by_session_id(session_id):
 
         return skill_list, max_questions
     except IntervieweeDetails.DoesNotExist:
-        print(f"Interviewee with session_id {session_id} does not exist.")
+        logger.info(f"Interviewee with session_id {session_id} does not exist.")
         return []
 def update_prompt_with_skills(prompt,session_id):
     skills, total_questions = get_skills_by_session_id(session_id)
@@ -77,14 +80,14 @@ def update_prompt_with_skills(prompt,session_id):
 
         return updated_prompt
     else:
-        print("No skills found for the given session ID.")
+        logger.info("No skills found for the given session ID.")
         return prompt
 
 def fetch_question(result,serial):
     config = {"configurable": {"session_id": serial}}
 
     data=model_with_memory.invoke((result),config=config).content
-    print("data is "+data)
+    logger.info("data is "+data)
     response_json = restructured_response(data)
     question=response_json.get("Question")
     return question
@@ -96,7 +99,7 @@ def fetch_prev_question(serial,counter):
     if question:
         return question
     else:
-        print(f"No question found for session ID {serial} and question number {counter}.")
+        logger.info(f"No question found for session ID {serial} and question number {counter}.")
         return None
 
 def evaluate_answer(question, answer):
@@ -116,7 +119,7 @@ def evaluate_answer(question, answer):
     
     try:
         text=response.content.strip()
-        print(f"response is {text}")
+        logger.info(f"response is {text}")
         numbers = re.findall(r'\d+', text)
         score = int(numbers[0])
         return min(max(score, 0), 10)  
@@ -131,12 +134,12 @@ def audio_processor(INPUT_FILENAME,serial,counter,max_questions):
     if(counter<=max_questions):
         if counter==0:
             prompt=fetch_prompt()
-            print(" actual prompt is "+prompt)
+            logger.info(" actual prompt is "+prompt)
             prompt=update_prompt_with_skills(prompt,serial)
-            print("updated prompt is "+prompt)
+            logger.info("updated prompt is "+prompt)
             next_question=fetch_question(prompt,serial)
         else:
-            print("counter is "+str(counter))
+            logger.info("counter is "+str(counter))
             next_question=fetch_question(result,serial)
             new_row = {"qno": counter+1, "cust_name": serial, "question": next_question }
         file_name=f"Q_{counter+1}_{serial}.mp3"
@@ -146,7 +149,7 @@ def audio_processor(INPUT_FILENAME,serial,counter,max_questions):
 
     marks=evaluate_answer(pquestion,result)
 
-    print("modified path is "+file_name)
+    logger.info("modified path is "+file_name)
 
     return next_question,file_name,result,marks
 
@@ -158,10 +161,10 @@ def audio_to_text(INPUT_FILENAME):
         audio = r.record(source)
     try:
         s = r.recognize_google(audio)
-        print(s)
+        logger.info(s)
         return s
     except Exception as e: 
-        print("Exception: "+str(e)) 
+        logger.info("Exception: "+str(e)) 
         return "error"
     
 def get_results_from_db(session_id):

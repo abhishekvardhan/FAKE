@@ -24,8 +24,8 @@ SECRET_KEY = "django-insecure-_4*-ujgz-a5kki*6mj07(7ai$nyu%obd4sh(heeb33p4c^p1fa
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
+if not DEBUG:
+    ALLOWED_HOSTS = ["43.204.188.210","fake-app.site","http://fake-app.site","https://fake-app.site/"]
 
 
 # Application definition
@@ -120,7 +120,8 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "fakeapp/static")]
-
+if not DEBUG:
+    STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -130,3 +131,24 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 import mimetypes
 mimetypes.add_type("audio/mpeg", ".mp3", True)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'simple_log.log'),  # or any file path
+        },
+    },
+
+    'loggers': {
+        'simple_logger': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}

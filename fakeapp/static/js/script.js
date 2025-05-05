@@ -128,9 +128,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             button.innerText = "Record";
         } else if (button.innerText === "Record") {
             try {
-                // Reset audio chunks array before starting a new recording
-                audioChunks = [];
-
+                
                 // Request microphone access with specific constraints for better audio quality
                 audioStream = await navigator.mediaDevices.getUserMedia({
                     audio: {

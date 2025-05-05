@@ -3,7 +3,7 @@ import os
 from django.shortcuts import render
 from gtts import gTTS
 from django.conf import settings
-from pygame import mixer
+
 from django.views.decorators.csrf import csrf_exempt 
 from django.http import JsonResponse
 import random
@@ -11,26 +11,64 @@ from . import fapp_processor
 from fakeapp.models import InterviewResponse,IntervieweeDetails, IntervieweeSkill
 from urllib.parse import unquote
 # Ensure counter is defined
-
+import logging
+logger = logging.getLogger('simple_logger')
 
 def get_skills(request):
+    request.session.flush()
+
     
     return render(request, 'temp1.html')
 
+@csrf_exempt
+def test_audio(request):
+    # if request.files["audio"]: not present in  render empty tes_audio1.html 
+    print("test_audio")
+    
+    if not request.FILES.get("audio"):
+        print("No audio file uploaded.")
+        return render(request, 'test_audio1.html', {"transcript": "No audio file uploaded."})
+    print("audio file uploaded.")
+    audio_file = request.FILES["audio"]
+    audio_file_path = os.path.join(settings.MEDIA_ROOT, "test_audio.wav")
+    with open(audio_file_path , "wb") as f:
+            for chunk in audio_file.chunks():
+                f.write(chunk)
+    
+    if os.path.isfile(audio_file_path):
+        logger.info(" File exists!")
+    else:
+        logger.info(" File does not exist.")
+    text=fapp_processor.audio_to_text(audio_file_path)
+    print(text)
+    if text.lower()=="how is the weather today":
+        status=True
+    else:
+        status=False
+    
+    # If this is an AJAX request, return JSON instead of rendering HTML
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.headers.get('Accept') == 'application/json':
+        return JsonResponse({
+            "transcript": text,
+            "match": status
+        })
+    
+    # Otherwise return the HTML response
+    return render(request, 'test_audio1.html', {"transcript": text, "match": status})
 
 @csrf_exempt
 def index(request):
-    if request.method == "POST" :
+    if request.method == "POST":
         #pass the audio settings here
         # Generate the audio file using gTTS
         name = request.POST.get("Name")
         request.session.flush()
-        print("Name:", name)
+        logger.info("Name:", name)
         selected_skills = request.POST.getlist("skills")
-        print("Selected skills:", selected_skills)
+        logger.info("Selected skills:", selected_skills)
         no_of_questions=request.POST.get("question_count")
 
-        print("No of questions:", no_of_questions)
+        logger.info("No of questions:", no_of_questions)
         session_id=str(''.join(random.choices(string.ascii_letters + string.digits, k=6)))
         request.session["session_id"] = session_id
         MAX_CYCLES=int(no_of_questions)
@@ -40,15 +78,15 @@ def index(request):
             IntervieweeSkill.objects.create(interviewee=Intervieweeobj, skill_name=skill)
         audio_file_path = os.path.join(settings.MEDIA_ROOT, "recorded_audi1.mp3")
         if os.path.isfile(audio_file_path):
-            print(" File exists!")
+            logger.info(" File exists!")
         else:
-            print(" File does not exist.")
+            logger.info(" File does not exist.")
         relative_media_url = os.path.join(settings.MEDIA_URL, "recorded_audi1.mp3")
 
         audio_file_url = request.build_absolute_uri(relative_media_url)
         
          
-        print(audio_file_url)
+        logger.info(audio_file_url)
         return render(request, 'index.html',{"audio_file_url":audio_file_url })
 
 
@@ -61,7 +99,7 @@ def upload_audio(request):
             request.session["counter"] = 0
         counter=request.session["counter"]
         MAX_CYCLES= request.session["MAX_CYCLES"]
-        print(session_id)
+        logger.info(session_id)
         save_path = os.path.join(settings.MEDIA_ROOT, f"{session_id}_response_{counter}.wav")
 
 
@@ -89,7 +127,7 @@ def upload_audio(request):
             question_text=question
         )
         show_text = f"{counter+1}. {question}"
-        # print("Audio file URL:", audio_file_url)
+        # logger.info("Audio file URL:", audio_file_url)
         if counter >= MAX_CYCLES :
             show_text="Thank you for your time!"
             audio_file="last.mp3"
@@ -115,15 +153,15 @@ def upload_audio(request):
 def result(request):
 
     serial=request.POST.get("serial")
-    print("serial is "+serial)
+    logger.info("serial is "+serial)
     request.session.flush()
     df_results=fapp_processor.get_results_from_db(serial)
     request.session['result_data'] = df_results
-    print("Result data brfore:", df_results)
+    logger.info("Result data brfore:", df_results)
     return JsonResponse({'redirect_url': '/show-result/'})
 
 def show_result(request):
     result_data = request.session.get('result_data', [])
-    print("Result data:", result_data)
+    logger.info("Result data:", result_data)
     
     return render(request, 'results.html', {"table_data": result_data})
