@@ -15,15 +15,39 @@ import logging
 logger = logging.getLogger('simple_logger')
 
 def get_skills(request):
-    request.session.flush()
-
     
+
     return render(request, 'temp1.html')
+@csrf_exempt
+def save_user_info(request):
+    if request.method == "POST":
+        name = request.POST.get("Name")
+        selected_skills = request.POST.getlist("skills")
+        print("Name:",name)
+        print("Selected skills:", selected_skills)
+        
+       
+        no_of_questions=request.POST.get("question_count")
+
+        print("No of questions:", no_of_questions)
+        session_id=str(''.join(random.choices(string.ascii_letters + string.digits, k=6)))
+        request.session["session_id"] = session_id
+        MAX_CYCLES=int(no_of_questions)
+        request.session["MAX_CYCLES"]=MAX_CYCLES
+        Intervieweeobj = IntervieweeDetails.objects.create(name=name, session_id=session_id, question_count=MAX_CYCLES+1)
+        for skill in selected_skills:
+            IntervieweeSkill.objects.create(interviewee=Intervieweeobj, skill_name=skill)
+        return JsonResponse({'redirect_url': '/test-audio/'})
+    return JsonResponse({"status": "error"}, status=400)
 
 @csrf_exempt
 def test_audio(request):
     # if request.files["audio"]: not present in  render empty tes_audio1.html 
     print("test_audio")
+    
+    # Just render the template for GET requests
+    if request.method == "GET":
+        return render(request, 'test_audio1.html', {"transcript": ""})
     
     if not request.FILES.get("audio"):
         print("No audio file uploaded.")
@@ -36,9 +60,9 @@ def test_audio(request):
                 f.write(chunk)
     
     if os.path.isfile(audio_file_path):
-        logger.info(" File exists!")
+        print(" File exists!")
     else:
-        logger.info(" File does not exist.")
+        print(" File does not exist.")
     text=fapp_processor.audio_to_text(audio_file_path)
     print(text)
     if text.lower()=="how is the weather today":
@@ -58,36 +82,22 @@ def test_audio(request):
 
 @csrf_exempt
 def index(request):
-    if request.method == "POST":
+    # if request.method == "POST":
         #pass the audio settings here
         # Generate the audio file using gTTS
-        name = request.POST.get("Name")
-        request.session.flush()
-        logger.info("Name:", name)
-        selected_skills = request.POST.getlist("skills")
-        logger.info("Selected skills:", selected_skills)
-        no_of_questions=request.POST.get("question_count")
-
-        logger.info("No of questions:", no_of_questions)
-        session_id=str(''.join(random.choices(string.ascii_letters + string.digits, k=6)))
-        request.session["session_id"] = session_id
-        MAX_CYCLES=int(no_of_questions)
-        request.session["MAX_CYCLES"]=MAX_CYCLES
-        Intervieweeobj = IntervieweeDetails.objects.create(name=name, session_id=session_id, question_count=MAX_CYCLES+1)
-        for skill in selected_skills:
-            IntervieweeSkill.objects.create(interviewee=Intervieweeobj, skill_name=skill)
-        audio_file_path = os.path.join(settings.MEDIA_ROOT, "recorded_audi1.mp3")
-        if os.path.isfile(audio_file_path):
-            logger.info(" File exists!")
-        else:
-            logger.info(" File does not exist.")
-        relative_media_url = os.path.join(settings.MEDIA_URL, "recorded_audi1.mp3")
-
-        audio_file_url = request.build_absolute_uri(relative_media_url)
         
-         
-        logger.info(audio_file_url)
-        return render(request, 'index.html',{"audio_file_url":audio_file_url })
+    audio_file_path = os.path.join(settings.MEDIA_ROOT, "recorded_audi1.mp3")
+    if os.path.isfile(audio_file_path):
+        print(" File exists!")
+    else:
+        print(" File does not exist.")
+    relative_media_url = os.path.join(settings.MEDIA_URL, "recorded_audi1.mp3")
+
+    audio_file_url = request.build_absolute_uri(relative_media_url)
+    
+        
+    print(audio_file_url)
+    return render(request, 'index.html',{"audio_file_url":audio_file_url })
 
 
 @csrf_exempt
@@ -99,7 +109,7 @@ def upload_audio(request):
             request.session["counter"] = 0
         counter=request.session["counter"]
         MAX_CYCLES= request.session["MAX_CYCLES"]
-        logger.info(session_id)
+        print(session_id)
         save_path = os.path.join(settings.MEDIA_ROOT, f"{session_id}_response_{counter}.wav")
 
 
@@ -127,7 +137,7 @@ def upload_audio(request):
             question_text=question
         )
         show_text = f"{counter+1}. {question}"
-        # logger.info("Audio file URL:", audio_file_url)
+        # print("Audio file URL:", audio_file_url)
         if counter >= MAX_CYCLES :
             show_text="Thank you for your time!"
             audio_file="last.mp3"
@@ -153,15 +163,15 @@ def upload_audio(request):
 def result(request):
 
     serial=request.POST.get("serial")
-    logger.info("serial is "+serial)
+    print("serial is "+serial)
     request.session.flush()
     df_results=fapp_processor.get_results_from_db(serial)
     request.session['result_data'] = df_results
-    logger.info("Result data brfore:", df_results)
+    print("Result data brfore:", df_results)
     return JsonResponse({'redirect_url': '/show-result/'})
 
 def show_result(request):
     result_data = request.session.get('result_data', [])
-    logger.info("Result data:", result_data)
+    print("Result data:", result_data)
     
     return render(request, 'results.html', {"table_data": result_data})

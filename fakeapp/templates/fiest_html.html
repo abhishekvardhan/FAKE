@@ -55,13 +55,18 @@
             font-weight: 600;
         }
         
-        input[type="text"], input[type="number"] {
+        input[type="text"], input[type="number"], textarea {
             width: 100%;
             padding: 0.75rem;
             border: 1px solid #d1d5db;
             border-radius: 0.375rem;
             font-size: 1rem;
             margin-bottom: 0.5rem;
+        }
+        
+        textarea {
+            min-height: 150px;
+            resize: vertical;
         }
         
         .skills-container {
@@ -142,6 +147,48 @@
             margin-top: 2rem;
         }
         
+        .interview-type-container {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+        
+        .radio-option input[type="radio"] {
+            cursor: pointer;
+        }
+        
+        .interview-section {
+            display: none;
+            border-top: 1px solid #d1d5db;
+            padding-top: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .interview-section.active {
+            display: block;
+        }
+        
+        .file-input-container {
+            margin-bottom: 1rem;
+        }
+        
+        .file-input-label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .file-input {
+            width: 100%;
+            padding: 0.5rem 0;
+        }
+        
         @media (max-width: 640px) {
             .container {
                 padding: 1.5rem;
@@ -151,31 +198,70 @@
             h1 {
                 font-size: 1.5rem;
             }
+            
+            .interview-type-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Friendly Ai for Knowlege Evaluation</h1>
+        <h1>Friendly AI for Knowledge Evaluation</h1>
         
-        <form id="skills-form" action="/save-user-info/" method="post">
+        <form id="skills-form" action="/save-user-info/" method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="Name">Enter yor name:</label>
-                <input type="text" id="Name" name="Name" />
-                <label for="skill-input">Add your top skills:</label>
-                <input type="text" id="skill-input" placeholder="Enter a skill (e.g., JavaScript, Project Management)" />
-                <button type="button" class="add-skill-btn" id="add-skill-btn">Add Skill</button>
-                <div class="error-message" id="skill-error"></div>
-                
-                <div class="skills-container" id="skills-container"></div>
-                <!-- Hidden input to store skills as JSON -->
-                <input type="hidden" id="skills-data" name="skills" value="[]">
+                <label for="Name">Enter your name:</label>
+                <input type="text" id="Name" name="Name" required />
             </div>
             
-            <div class="form-group">
-                <label for="questions-count">Number of questions to ask:</label>
-                <input type="number" id="questions-count" name="question_count" min="1" max="20" value="5" />
-                <div class="error-message" id="count-error"></div>
+            <div class="interview-type-container">
+                <label class="radio-option">
+                    <input type="radio" name="interview_type" value="skill_based" id="skill_based_radio" checked>
+                    Skill-based Interview
+                </label>
+                <label class="radio-option">
+                    <input type="radio" name="interview_type" value="job_description" id="job_description_radio">
+                    Job Description Specific Interview
+                </label>
+            </div>
+            
+            <!-- Skill-based Interview Section -->
+            <div id="skill_based_section" class="interview-section active">
+                <div class="form-group">
+                    <label for="skill-input">Add your top skills:</label>
+                    <input type="text" id="skill-input" placeholder="Enter a skill (e.g., JavaScript, Project Management)" />
+                    <button type="button" class="add-skill-btn" id="add-skill-btn">Add Skill</button>
+                    <div class="error-message" id="skill-error"></div>
+                    
+                    <div class="skills-container" id="skills-container"></div>
+                    <!-- Hidden input to store skills as JSON -->
+                    <input type="hidden" id="skills-data" name="skills" value="[]">
+                </div>
+                
+                <div class="form-group">
+                    <label for="questions-count">Number of questions to ask:</label>
+                    <input type="number" id="questions-count" name="question_count" min="1" max="20" value="5" />
+                    <div class="error-message" id="count-error"></div>
+                </div>
+            </div>
+            
+            <!-- Job Description Interview Section -->
+            <div id="job_description_section" class="interview-section">
+                <div class="form-group">
+                    <label for="resume">Upload your Resume/CV:</label>
+                    <div class="file-input-container">
+                        <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" class="file-input" />
+                    </div>
+                    <div class="error-message" id="resume-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="job-description">Paste Job Description:</label>
+                    <textarea id="job-description" name="job_description" placeholder="Copy and paste the job description here..."></textarea>
+                    <div class="error-message" id="job-description-error"></div>
+                </div>
             </div>
             
             <button type="submit" class="start-interview-btn" id="start-interview-btn">Start Interview</button>
@@ -194,7 +280,32 @@
             const skillsForm = document.getElementById('skills-form');
             const skillsDataInput = document.getElementById('skills-data');
             
+            // Radio buttons and sections
+            const skillBasedRadio = document.getElementById('skill_based_radio');
+            const jobDescriptionRadio = document.getElementById('job_description_radio');
+            const skillBasedSection = document.getElementById('skill_based_section');
+            const jobDescriptionSection = document.getElementById('job_description_section');
+            const resumeInput = document.getElementById('resume');
+            const jobDescriptionInput = document.getElementById('job-description');
+            const resumeError = document.getElementById('resume-error');
+            const jobDescriptionError = document.getElementById('job-description-error');
+            
             let skills = [];
+            
+            // Toggle interview type sections
+            skillBasedRadio.addEventListener('change', function() {
+                if (this.checked) {
+                    skillBasedSection.classList.add('active');
+                    jobDescriptionSection.classList.remove('active');
+                }
+            });
+            
+            jobDescriptionRadio.addEventListener('change', function() {
+                if (this.checked) {
+                    jobDescriptionSection.classList.add('active');
+                    skillBasedSection.classList.remove('active');
+                }
+            });
             
             // Add skill when button is clicked
             addSkillBtn.addEventListener('click', addSkill);
@@ -208,31 +319,45 @@
             });
             
             // Form submission
-            skillsForm.addEventListener('submit', function(e) {             
-                // Validate input before submitting
-                if (skills.length === 0) {
-                    e.preventDefault();
-                    skillError.textContent = 'Please add at least one skill';
-                    return false;
-                }
-                
-                const count = parseInt(questionsCount.value);
-                if (isNaN(count) || count < 1 || count > 20) {
-                    e.preventDefault();
-                    countError.textContent = 'Please enter a number between 1 and 20';
-                    return false;
-                }
-                
-                // Reset error messages
-                skillError.textContent = '';
-                countError.textContent = '';
-                
-                // Update the hidden input with skills JSON data
-                skillsDataInput.value = JSON.stringify(skills);
-                
-                // Handle form submission via AJAX
+            skillsForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
+                // Reset all error messages
+                skillError.textContent = '';
+                countError.textContent = '';
+                resumeError.textContent = '';
+                jobDescriptionError.textContent = '';
+                
+                // Validate based on selected interview type
+                if (skillBasedRadio.checked) {
+                    // Validate skill-based interview inputs
+                    if (skills.length === 0) {
+                        skillError.textContent = 'Please add at least one skill';
+                        return false;
+                    }
+                    
+                    const count = parseInt(questionsCount.value);
+                    if (isNaN(count) || count < 1 || count > 20) {
+                        countError.textContent = 'Please enter a number between 1 and 20';
+                        return false;
+                    }
+                    
+                    // Update the hidden input with skills JSON data
+                    skillsDataInput.value = JSON.stringify(skills);
+                } else {
+                    // Validate job description interview inputs
+                    if (!resumeInput.files || resumeInput.files.length === 0) {
+                        resumeError.textContent = 'Please upload your resume';
+                        return false;
+                    }
+                    
+                    if (jobDescriptionInput.value.trim() === '') {
+                        jobDescriptionError.textContent = 'Please paste the job description';
+                        return false;
+                    }
+                }
+                
+                // Handle form submission via AJAX
                 const formData = new FormData(skillsForm);
                 
                 fetch('/save-user-info/', {

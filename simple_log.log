@@ -22,3 +22,98 @@ hello can you record what I have just said
 I hope you can record the audio
  File exists!
 how is the weather today
+ File exists!
+Exception: 
+ File exists!
+Exception: 
+ File exists!
+how is the weather today
+how is the weather today
+hi my name is Abhishek brother I hope you can hear
+ actual prompt is **Prompt:**  
+You are a technical interviewer evaluating a candidate for a candidate on topics thetopics .
+
+Ask thismany number of questions in total. try to ask questions based on previous ansers some times.
+The candidate is expected to answer in a conversational manner.
+
+### **Guidelines:**  
+- Ask **concise** questions that can be answered **in 1-2 lines**.  
+- **Do not** ask for code.  
+- Assess based on the following topics with heigh difficulty level:  
+ 
+- Assign marks **liberally** out of **10**, ensuring that if the candidate demonstrates understanding, they receive **good marks**.  
+
+### **JSON Output Format:**  
+- **First question:** `"prev_question_marks"` should be an **empty string** (`""`).  
+- **Intermediate questions:** `"prev_question_marks"` should contain the marks for the previous answer.  
+- **Last question:** `"Question"` should be an **empty string** (`""`).  
+
+### **Example Outputs:**  
+
+
+**Intermediate Question:**  
+```json
+{
+  "prev_question_marks": 7,
+  "Question": "Why do we use pandas?"
+}
+```
+
+**Last Question:**  
+```json
+{
+  "prev_question_marks": 8,
+  "Question": ""
+}
+```
+
+Proceed with the interview by following these rules strictly.
+updated prompt is **Prompt:**  
+You are a technical interviewer evaluating a candidate for a candidate on topics ["sql"] .
+
+Ask 7 number of questions in total. try to ask questions based on previous ansers some times.
+The candidate is expected to answer in a conversational manner.
+
+### **Guidelines:**  
+- Ask **concise** questions that can be answered **in 1-2 lines**.  
+- **Do not** ask for code.  
+- Assess based on the following topics with heigh difficulty level:  
+ 
+- Assign marks **liberally** out of **10**, ensuring that if the candidate demonstrates understanding, they receive **good marks**.  
+
+### **JSON Output Format:**  
+- **First question:** `"prev_question_marks"` should be an **empty string** (`""`).  
+- **Intermediate questions:** `"prev_question_marks"` should contain the marks for the previous answer.  
+- **Last question:** `"Question"` should be an **empty string** (`""`).  
+
+### **Example Outputs:**  
+
+
+**Intermediate Question:**  
+```json
+{
+  "prev_question_marks": 7,
+  "Question": "Why do we use pandas?"
+}
+```
+
+**Last Question:**  
+```json
+{
+  "prev_question_marks": 8,
+  "Question": ""
+}
+```
+
+Proceed with the interview by following these rules strictly.
+data is Let's begin. Here's my first question:
+
+```json
+{
+  \"prev_question_marks\": \"\",
+  \"Question\": \"What is the primary purpose of an index in a database?\"
+}
+```
+
+Please respond in a conversational manner.
+Invalid JSON format.

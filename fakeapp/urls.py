@@ -7,6 +7,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", views.get_skills, name="get_skills"),
+    path("save-user-info/", views.save_user_info, name="save_user_info"),
     # path('audio-settings/', views.audio_settings, name='audio_settings'),
     path("test-audio/", views.test_audio, name="test_audio"),
     path("interview/", views.index, name="index"),
