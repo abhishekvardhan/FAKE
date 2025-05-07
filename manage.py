@@ -17,6 +17,45 @@ def main():
         ) from exc
     execute_from_command_line(sys.argv)
 
+from django.db import migrations
+
+
+class Migration(migrations.Migration):
+    
+    dependencies = [
+        ('fakeapp', '0003_remove_intervieweedetails_average_score_and_more'),  # replace with your actual migration name
+    ]
+    
+    operations = [
+        # First, temporarily remove the constraints
+        migrations.RunSQL(
+            "PRAGMA foreign_keys = OFF;",
+            "PRAGMA foreign_keys = ON;"
+        ),
+        
+        # Drop the old table (backup the data if needed)
+        migrations.RunSQL(
+            # For SQLite, since it doesn't support column changes easily
+            "DROP TABLE IF EXISTS fakeapp_intervieweeskill_backup; "
+            "CREATE TABLE fakeapp_intervieweeskill_backup AS SELECT * FROM fakeapp_intervieweeskill;",
+            # Reverse operation (no action needed)
+            ""
+        ),
+        
+        # Remove the old table
+        migrations.RunSQL(
+            "DROP TABLE fakeapp_intervieweeskill;",
+            # Reverse operation
+            "CREATE TABLE fakeapp_intervieweeskill AS SELECT * FROM fakeapp_intervieweeskill_backup;"
+        ),
+        
+        # Turn foreign keys back on
+        migrations.RunSQL(
+            "PRAGMA foreign_keys = ON;",
+            "PRAGMA foreign_keys = OFF;"
+        ),
+    ]
 
 if __name__ == "__main__":
     main()
+

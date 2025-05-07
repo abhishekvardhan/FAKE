@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Test Audio</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 30px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .instruction {
+      font-size: 16px;
+      text-align: center;
+      margin-top: 20px;
+      color: #555;
+    }
+    .sentence {
+      font-size: 20px;
+      text-align: center;
+      margin: 15px 0;
+      font-weight: bold;
+    }
+    .tip {
+      display: flex;
+      align-items: center;
+      background-color: #e7f3fe;
+      padding: 10px;
+      border-left: 4px solid #2196F3;
+      border-radius: 4px;
+      margin: 10px 0;
+      font-size: 14px;
+    }
+    .tip-icon {
+      margin-right: 10px;
+      font-weight: bold;
+      color: #2196F3;
+    }
+    button {
+      background-color: #e74c3c;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+      margin-top: 20px;
+    }
+    button:hover {
+      background-color: #c0392b;
+    }
+    .status {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 4px;
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      text-align: center;
+    }
+    #audioPlayback {
+      width: 100%;
+      margin-top: 15px;
+      display: none;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 400px;
+      text-align: center;
+    }
+    .modal-button {
+      background-color: #e74c3c;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    /* Device selection styles */
+    .device-selection {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      border: 1px solid #e9ecef;
+      transition: height 0.3s ease;
+    }
+    .device-selection h3 {
+      margin-top: 0;
+      color: #333;
+    }
+    .device-row {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 15px;
+    }
+    .device-row label {
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #555;
+    }
+    select {
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+      background-color: white;
+      font-size: 14px;
+    }
+    .toggle-button {
+      background-color: #3498db;
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
+    .toggle-button:hover {
+      background-color: #2980b9;
+    }
+    .hidden {
+      display: none;
+    }
+    .device-status {
+      font-size: 14px;
+      color: #888;
+      margin-top: 5px;
+    }
+    .test-btn {
+      background-color: #27ae60;
+      padding: 8px 12px;
+      font-size: 14px;
+      margin-top: 8px;
+      width: auto;
+      display: inline-block;
+    }
+    .test-btn:hover {
+      background-color: #219955;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Test Audio</h1>
+
+    <button id="toggleDeviceBtn" class="toggle-button">Audio Device Settings</button>
+    
+    <div id="deviceSelectionPanel" class="device-selection hidden">
+      <h3>Audio Devices</h3>
+      
+      <div class="device-row">
+        <label for="audioInputSelect">Microphone:</label>
+        <select id="audioInputSelect">
+          <option value="">Default microphone</option>
+        </select>
+        <div id="micStatus" class="device-status"></div>
+      </div>
+      
+      <div class="device-row">
+        <label for="audioOutputSelect">Speaker:</label>
+        <select id="audioOutputSelect">
+          <option value="">Default speaker</option>
+        </select>
+        <div id="speakerStatus" class="device-status"></div>
+        <button id="testSpeakerBtn" class="test-btn">Test Speaker</button>
+      </div>
+      
+      <button id="refreshDevicesBtn">Refresh Device List</button>
+    </div>
+
+    <div class="instruction">Please read the sentence aloud into your microphone:</div>
+    <div class="sentence">"How is the weather today"</div>
+
+    <div class="tip">
+      <div class="tip-icon">💡</div>
+      <div>Speak slowly and clearly for AI to recognize the speech</div>
+    </div>
+
+    <button id="recordBtn">Record</button>
+    <audio id="audioPlayback" controls></audio>
+
+    <div class="status" id="status" data-transcript="{{ transcript }}" data-match="{{ match }}">
+      {% if transcript %}
+      You said: "{{ transcript }}"
+      {% if match %}
+      <br><strong>Correct!</strong>
+      {% endif %}
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="modal" id="failModal">
+    <div class="modal-content">
+      <h2>Failed</h2>
+      <p>Your spoken text didn't match the target sentence. Please try again.</p>
+      <button class="modal-button" id="closeModalBtn">OK</button>
+    </div>
+  </div>
+
+  <script>
+    let isRecording = false;
+    let mediaRecorder;
+    let recordedChunks = [];
+    let audioStream;
+    let audioContext;
+    let selectedInputDevice = '';
+    let selectedOutputDevice = '';
+    let selectedInputDeviceLabel = 'Default microphone';
+    let selectedOutputDeviceLabel = 'Default speaker';
+
+    // Elements
+    const recordBtn = document.getElementById('recordBtn');
+    const statusDiv = document.getElementById('status');
+    const audioPlayback = document.getElementById('audioPlayback');
+    const failModal = document.getElementById('failModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const testSentence = "how is the weather today";
+    
+    // Device selection elements
+    const toggleDeviceBtn = document.getElementById('toggleDeviceBtn');
+    const deviceSelectionPanel = document.getElementById('deviceSelectionPanel');
+    const audioInputSelect = document.getElementById('audioInputSelect');
+    const audioOutputSelect = document.getElementById('audioOutputSelect');
+    const refreshDevicesBtn = document.getElementById('refreshDevicesBtn');
+    const testSpeakerBtn = document.getElementById('testSpeakerBtn');
+    const micStatus = document.getElementById('micStatus');
+    const speakerStatus = document.getElementById('speakerStatus');
+
+    // Initialize audio context
+    try {
+      window.AudioContext = window.AudioContext || window.webkitAudioContext;
+      audioContext = new AudioContext();
+    } catch (e) {
+      console.error('Web Audio API is not supported in this browser', e);
+    }
+
+    // Event listeners
+    recordBtn.addEventListener('click', async () => {
+      if (!isRecording) {
+        startRecording();
+      } else {
+        stopRecording();
+      }
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+      failModal.style.display = 'none';
+    });
+    
+    toggleDeviceBtn.addEventListener('click', () => {
+      deviceSelectionPanel.classList.toggle('hidden');
+      if (!deviceSelectionPanel.classList.contains('hidden')) {
+        refreshDeviceList();
+      }
+    });
+    
+    refreshDevicesBtn.addEventListener('click', refreshDeviceList);
+    
+    audioInputSelect.addEventListener('change', (e) => {
+      selectedInputDevice = e.target.value;
+      selectedInputDeviceLabel = e.target.options[e.target.selectedIndex].text;
+      micStatus.textContent = 'Selected: ' + selectedInputDeviceLabel;
+    });
+    
+    audioOutputSelect.addEventListener('change', (e) => {
+      selectedOutputDevice = e.target.value;
+      selectedOutputDeviceLabel = e.target.options[e.target.selectedIndex].text;
+      speakerStatus.textContent = 'Selected: ' + selectedOutputDeviceLabel;
+      
+      // If browser supports setSinkId, set the audio output device
+      if (typeof audioPlayback.setSinkId === 'function') {
+        try {
+          audioPlayback.setSinkId(selectedOutputDevice).then(() => {
+            console.log('Output device set successfully');
+          }).catch(err => {
+            console.error('Error setting audio output device:', err);
+          });
+        } catch (err) {
+          console.error('Error setting output device:', err);
+        }
+      }
+    });
+    
+    testSpeakerBtn.addEventListener('click', () => {
+      testSpeaker();
+    });
+
+    // Function to refresh device list
+    async function refreshDeviceList() {
+      try {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+          throw new Error('Media Devices API not supported in this browser');
+        }
+        
+        // Request permission first to get labeled devices
+        await navigator.mediaDevices.getUserMedia({ audio: true })
+          .then(stream => {
+            stream.getTracks().forEach(track => track.stop());
+          })
+          .catch(err => {
+            console.error('Failed to get microphone permission:', err);
+          });
+          
+        // Enumerate devices
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        
+        // Clear existing options except first default option
+        while (audioInputSelect.options.length > 1) {
+          audioInputSelect.remove(1);
+        }
+        while (audioOutputSelect.options.length > 1) {
+          audioOutputSelect.remove(1);
+        }
+        
+        // Add devices to dropdown
+        let hasInputDevices = false;
+        let hasOutputDevices = false;
+        
+        devices.forEach(device => {
+          const option = document.createElement('option');
+          option.value = device.deviceId;
+          option.text = device.label || `${device.kind} (permission needed)`;
+          
+          if (device.kind === 'audioinput') {
+            audioInputSelect.appendChild(option);
+            hasInputDevices = true;
+          } else if (device.kind === 'audiooutput') {
+            audioOutputSelect.appendChild(option);
+            hasOutputDevices = true;
+          }
+        });
+        
+        if (!hasInputDevices) {
+          micStatus.textContent = 'No microphone devices found';
+        } else {
+          micStatus.textContent = 'Microphone devices loaded';
+        }
+        
+        if (!hasOutputDevices) {
+          speakerStatus.textContent = 'No speaker devices found';
+        } else {
+          speakerStatus.textContent = 'Speaker devices loaded';
+        }
+      } catch (err) {
+        micStatus.textContent = 'Error: ' + err.message;
+        console.error('Error refreshing device list:', err);
+      }
+    }
+    
+    // Function to test speaker
+    function testSpeaker() {
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+      
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.type = 'sine';
+      oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // A4 note
+      
+      gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+      gainNode.gain.linearRampToValueAtTime(0.5, audioContext.currentTime + 0.1);
+      gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 1.0);
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + 1.0);
+      
+      speakerStatus.textContent = 'Playing test sound...';
+      setTimeout(() => {
+        speakerStatus.textContent = 'Selected: ' + selectedOutputDeviceLabel;
+      }, 1500);
+    }
+
+    // Function to save device preferences to localStorage
+    function saveDevicePreferences() {
+      const devicePreferences = {
+        inputDevice: selectedInputDevice,
+        outputDevice: selectedOutputDevice,
+        inputDeviceLabel: selectedInputDeviceLabel,
+        outputDeviceLabel: selectedOutputDeviceLabel
+      };
+      
+      localStorage.setItem('audioDevicePreferences', JSON.stringify(devicePreferences));
+      return devicePreferences;
+    }
+
+    async function startRecording() {
+      try {
+        const constraints = {
+          audio: {
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true,
+            sampleRate: 44100,
+            channelCount: 1
+          }
+        };
+        
+        // If a specific input device is selected, use it
+        if (selectedInputDevice) {
+          constraints.audio.deviceId = { exact: selectedInputDevice };
+        }
+        
+        audioStream = await navigator.mediaDevices.getUserMedia(constraints);
+        
+        mediaRecorder = new MediaRecorder(audioStream);
+        recordedChunks = [];
+
+        mediaRecorder.ondataavailable = e => {
+          if (e.data.size > 0) recordedChunks.push(e.data);
+        };
+
+        mediaRecorder.onstop = async () => {
+          const audioBlob = new Blob(recordedChunks, { type: 'audio/webm' });
+          const audioUrl = URL.createObjectURL(audioBlob);
+          
+          // Check if audioPlayback exists before setting properties
+          if (audioPlayback) {
+            audioPlayback.src = audioUrl;
+            audioPlayback.style.display = 'block';
+            
+            // If browser supports setSinkId and a specific output device is selected, use it
+            if (typeof audioPlayback.setSinkId === 'function' && selectedOutputDevice) {
+              try {
+                await audioPlayback.setSinkId(selectedOutputDevice);
+              } catch (err) {
+                console.error('Error setting audio output device:', err);
+              }
+            }
+          }
+          
+          // Convert to WAV
+          const arrayBuffer = await audioBlob.arrayBuffer();
+          const audioContext = new AudioContext();
+          const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+          const wavBlob = encodeWAV(audioBuffer);
+          
+          // Send to backend
+          const formData = new FormData();
+          formData.append("audio", wavBlob, "recording.wav");
+          
+          try {
+            const response = await fetch("/test-audio/", {
+              method: "POST",
+              headers: {
+                "Accept": "application/json"
+              },
+              body: formData
+            });
+            console.log("Response status:", response);
+            
+            const data = await response.json();
+            console.log("Response data:", data);
+            
+            const spoken = data.transcript?.toLowerCase().trim();
+            statusDiv.textContent = `You said: "${spoken}"`;
+            console.log("Spoken text:", spoken);
+            
+            if (data.match) {
+              statusDiv.innerHTML += "<br><strong>Correct!</strong>";
+              recordBtn.textContent = 'Next';
+              recordBtn.onclick = () => {
+                // Save device preferences before navigating
+                const devices = saveDevicePreferences();
+                
+                // Create form data object to match Django's expected format
+                const formData = new FormData();
+                formData.append("audio_device", devices.outputDevice);
+                formData.append("microphone", devices.inputDevice);
+                formData.append("speaker", devices.outputDevice);
+                
+                // Add device labels as additional info
+                formData.append("microphone_label", devices.inputDeviceLabel);
+                formData.append("speaker_label", devices.outputDeviceLabel);
+                
+                // Send to Django endpoint
+                fetch('/store-audio-devices/', {
+                  method: 'POST',
+                  body: formData
+                })
+                .then(response => {
+                  if (!response.ok) {
+                    throw new Error('Failed to store device configuration');
+                  }
+                  console.log('Device configuration stored successfully');
+                  return response;
+                })
+                .then(() => {
+                  // After sending the device info, navigate to the interview page
+                  window.location.href = '/interview/';
+                })
+                .catch(error => {
+                  console.error('Error storing device configuration:', error);
+                  // Still navigate to interview in case of error
+                  window.location.href = '/interview/';
+                });
+              };
+            } else {
+              failModal.style.display = 'flex';
+              recordBtn.textContent = 'Record';
+            }
+          } catch (error) {
+            statusDiv.textContent = 'Error processing audio: ' + error.message;
+            recordBtn.textContent = 'Try Again';
+          }
+          
+          // Stop all tracks
+          audioStream.getTracks().forEach(track => track.stop());
+        };
+
+        mediaRecorder.start();
+        isRecording = true;
+        recordBtn.textContent = 'Stop Recording';
+        statusDiv.textContent = 'Recording...';
+        if (audioPlayback) {
+          audioPlayback.style.display = 'none';
+        }
+      } catch (error) {
+        statusDiv.textContent = 'Error accessing microphone: ' + error.message;
+      }
+    }
+
+    function stopRecording() {
+      if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+        mediaRecorder.stop();
+        isRecording = false;
+        statusDiv.textContent = 'Processing...';
+      }
+    }
+
+    function encodeWAV(audioBuffer) {
+      const numChannels = audioBuffer.numberOfChannels;
+      const sampleRate = audioBuffer.sampleRate;
+      const format = 1; // PCM
+      const bitDepth = 16;
+  
+      const samples = mergeBuffers(audioBuffer);
+      const dataSize = samples.length * 2; // 16-bit = 2 bytes per sample
+  
+      const buffer = new ArrayBuffer(44 + dataSize);
+      const view = new DataView(buffer);
+  
+      function writeString(view, offset, string) {
+        for (let i = 0; i < string.length; i++) {
+          view.setUint8(offset + i, string.charCodeAt(i));
+        }
+      }
+  
+      // RIFF chunk descriptor
+      writeString(view, 0, 'RIFF');
+      view.setUint32(4, 36 + dataSize, true);
+      writeString(view, 8, 'WAVE');
+  
+      // fmt sub-chunk
+      writeString(view, 12, 'fmt ');
+      view.setUint32(16, 16, true); // Subchunk1Size (16 for PCM)
+      view.setUint16(20, format, true); // AudioFormat
+      view.setUint16(22, numChannels, true);
+      view.setUint32(24, sampleRate, true);
+      view.setUint32(28, sampleRate * numChannels * 2, true); // ByteRate
+      view.setUint16(32, numChannels * 2, true); // BlockAlign
+      view.setUint16(34, bitDepth, true);
+  
+      // data sub-chunk
+      writeString(view, 36, 'data');
+      view.setUint32(40, dataSize, true);
+  
+      // Write samples
+      let offset = 44;
+      for (let i = 0; i < samples.length; i++) {
+        const s = Math.max(-1, Math.min(1, samples[i]));
+        view.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+        offset += 2;
+      }
+  
+      return new Blob([view], { type: 'audio/wav' });
+    }
+  
+    function mergeBuffers(audioBuffer) {
+      const channels = [];
+      for (let i = 0; i < audioBuffer.numberOfChannels; i++) {
+        channels.push(audioBuffer.getChannelData(i));
+      }
+  
+      const length = audioBuffer.length;
+      let result;
+      
+      if (audioBuffer.numberOfChannels === 1) {
+        // Mono
+        result = new Float32Array(length);
+        result.set(channels[0]);
+      } else {
+        // Stereo or more - need to interleave
+        result = new Float32Array(length * audioBuffer.numberOfChannels);
+        for (let i = 0; i < length; i++) {
+          for (let channel = 0; channel < audioBuffer.numberOfChannels; channel++) {
+            result[i * audioBuffer.numberOfChannels + channel] = channels[channel][i];
+          }
+        }
+      }
+  
+      return result;
+    }
+    
+    // Try to load previous device preferences if any
+    function loadDevicePreferences() {
+      const savedPrefs = localStorage.getItem('audioDevicePreferences');
+      if (savedPrefs) {
+        try {
+          const prefs = JSON.parse(savedPrefs);
+          selectedInputDevice = prefs.inputDevice || '';
+          selectedOutputDevice = prefs.outputDevice || '';
+          selectedInputDeviceLabel = prefs.inputDeviceLabel || 'Default microphone';
+          selectedOutputDeviceLabel = prefs.outputDeviceLabel || 'Default speaker';
+          
+          // We'll apply these after device enumeration
+          console.log('Loaded saved device preferences');
+        } catch (e) {
+          console.error('Error parsing saved device preferences', e);
+        }
+      }
+    }
+    
+    // Initialize device list when page loads
+    document.addEventListener('DOMContentLoaded', () => {
+      // Load any saved preferences
+      loadDevicePreferences();
+      
+      // Don't automatically show the device panel, wait for user to click button
+      // But we can pre-populate the device lists
+      setTimeout(() => {
+        refreshDeviceList().then(() => {
+          // Try to restore selected devices
+          if (selectedInputDevice) {
+            for (let i = 0; i < audioInputSelect.options.length; i++) {
+              if (audioInputSelect.options[i].value === selectedInputDevice) {
+                audioInputSelect.selectedIndex = i;
+                micStatus.textContent = 'Selected: ' + selectedInputDeviceLabel;
+                break;
+              }
+            }
+          }
+          
+          if (selectedOutputDevice) {
+            for (let i = 0; i < audioOutputSelect.options.length; i++) {
+              if (audioOutputSelect.options[i].value === selectedOutputDevice) {
+                audioOutputSelect.selectedIndex = i;
+                speakerStatus.textContent = 'Selected: ' + selectedOutputDeviceLabel;
+                break;
+              }
+            }
+          }
+        });
+      }, 500);
+    });
+  </script>
+</body>
+</html>

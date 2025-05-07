@@ -21,6 +21,58 @@ os.environ["GROQ_API_KEY"]="gsk_Rj4x8XOciOQQSrzh5dMNWGdyb3FYh2C6PnXhICcVnm2elOMa
 
 import logging
 logger = logging.getLogger('simple_logger')
+import pdfplumber
+import pytesseract
+import PyPDF2
+import docx
+import textract
+def extract_resume_text(file_path):
+    file_extension = file_path.split('.')[-1].lower()
+    
+    if file_extension == 'pdf':
+        try:
+            # Try pdfplumber first for better formatting
+            
+            with pdfplumber.open(file_path) as pdf:
+                text = ""
+                for page in pdf.pages:
+                    text += page.extract_text() or ""
+            
+            # If text extraction failed or returned empty, try pytesseract
+            if not text.strip():
+                from pdf2image import convert_from_path
+                
+                images = convert_from_path(file_path)
+                text = ""
+                for image in images:
+                    text += pytesseract.image_to_string(image)
+                    
+        except Exception as e:
+            print(f"Error with primary PDF methods: {e}")
+            # Fallback to PyPDF2
+            with open(file_path, 'rb') as file:
+                reader = PyPDF2.PdfReader(file)
+                text = ""
+                for page in reader.pages:
+                    text += page.extract_text() or ""
+                    
+    elif file_extension == 'docx':
+        import docx
+        doc = docx.Document(file_path)
+        text = ""
+        for paragraph in doc.paragraphs:
+            text += paragraph.text + "\n"
+            
+    elif file_extension in ['txt', 'rtf']:
+        with open(file_path, 'r', encoding='utf-8', errors='ignore') as file:
+            text = file.read()
+            
+    else:
+        # Try textract for other formats
+      
+        text = textract.process(file_path).decode('utf-8')
+        
+    return text.strip()
 def fetch_prompt():
     with open("prompt.txt", "r") as file:
         prompt = file.read()

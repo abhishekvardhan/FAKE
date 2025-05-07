@@ -8,77 +8,152 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import random
 from . import fapp_processor
-from fakeapp.models import InterviewResponse,IntervieweeDetails, IntervieweeSkill
+from fakeapp.models import InterviewResponse,IntervieweeDetails, IntervieweeSkill, skillbased_interview, resumebased_interview
 from urllib.parse import unquote
 # Ensure counter is defined
 import logging
 logger = logging.getLogger('simple_logger')
 
 def get_skills(request):
-    
-
+    # Initialize session variables
+    request.session.flush()
+    request.session["interview_type"] = "skill_based"
     return render(request, 'temp1.html')
 @csrf_exempt
 def save_user_info(request):
     if request.method == "POST":
-        name = request.POST.get("Name")
-        selected_skills = request.POST.getlist("skills")
-        print("Name:",name)
-        print("Selected skills:", selected_skills)
-        
-       
-        no_of_questions=request.POST.get("question_count")
+        try:
+            name = request.POST.get("Name")
+            session_id=str(''.join(random.choices(string.ascii_letters + string.digits, k=6)))
+            Intervieweeobj = IntervieweeDetails.objects.create(name=name, session_id=session_id )
+            print(request.POST.get("interview_type"))
+            if request.POST.get("interview_type") == "skill_based":
+                selected_skills = request.POST.getlist("skills")
+                print("Name:",name)
+                print("Selected skills:", selected_skills)
+                no_of_questions=request.POST.get("question_count")
 
-        print("No of questions:", no_of_questions)
-        session_id=str(''.join(random.choices(string.ascii_letters + string.digits, k=6)))
-        request.session["session_id"] = session_id
-        MAX_CYCLES=int(no_of_questions)
-        request.session["MAX_CYCLES"]=MAX_CYCLES
-        Intervieweeobj = IntervieweeDetails.objects.create(name=name, session_id=session_id, question_count=MAX_CYCLES+1)
-        for skill in selected_skills:
-            IntervieweeSkill.objects.create(interviewee=Intervieweeobj, skill_name=skill)
-        return JsonResponse({'redirect_url': '/test-audio/'})
-    return JsonResponse({"status": "error"}, status=400)
+                print("No of questions:", no_of_questions)
+                
+                request.session["session_id"] = session_id
+                MAX_CYCLES=int(no_of_questions)
+                request.session["MAX_CYCLES"]=MAX_CYCLES
+                skillbased_interview_obj = skillbased_interview.objects.create(interviewee=Intervieweeobj, question_count=MAX_CYCLES)
+                for skill in selected_skills:
+                    IntervieweeSkill.objects.create(interviewee=Intervieweeobj, skill_name=skill)
+            else:
+                # resumebased_interview_obj = resumebased_interview.objects.create(interviewee=Intervieweeobj, )
+                request.session["interview_type"] = "resume_based"
+                resume_file = request.FILES.get("resume")
+                
+                print("Resume file:", resume_file)
+                jd= request.POST.get("job_description", "")
+                
+                
+                #save the resume file to the media directory
+                if resume_file:
+                    # Ensure the directory exists
+                    resume_dir = os.path.join(settings.MEDIA_ROOT, "resumes")
+                    os.makedirs(resume_dir, exist_ok=True)
+                    
+                    resume_path = os.path.join(resume_dir, session_id+resume_file.name)
+                    with open(resume_path, "wb") as f:
+                        for chunk in resume_file.chunks():
+                            f.write(chunk)
+                    print("Resume saved at:", resume_path)
+                    resume_data=fapp_processor.extract_resume_text(resume_path)
+                    resumebased_interview_obj = resumebased_interview.objects.create(interviewee=Intervieweeobj, resume_json=resume_data, job_description=jd)
+                    
+            
+            return JsonResponse({'redirect_url': '/test-audio/'})
+        except Exception as e:
+            print(f"Error in save_user_info: {str(e)}")
+            return JsonResponse({"status": "error", "message": str(e)}, status=500)
+            
+    return JsonResponse({"status": "error", "message": "Invalid request method"}, status=400)
 
 @csrf_exempt
 def test_audio(request):
-    # if request.files["audio"]: not present in  render empty tes_audio1.html 
-    print("test_audio")
-    
-    # Just render the template for GET requests
-    if request.method == "GET":
-        return render(request, 'test_audio1.html', {"transcript": ""})
-    
-    if not request.FILES.get("audio"):
-        print("No audio file uploaded.")
-        return render(request, 'test_audio1.html', {"transcript": "No audio file uploaded."})
-    print("audio file uploaded.")
-    audio_file = request.FILES["audio"]
-    audio_file_path = os.path.join(settings.MEDIA_ROOT, "test_audio.wav")
-    with open(audio_file_path , "wb") as f:
+    try:
+        print("test_audio endpoint accessed")
+        
+        # Handle GET request
+        if request.method == "GET":
+            print("GET request to test_audio")
+            return render(request, 'select_test.html', {"transcript": ""})
+        
+        # Handle POST request
+        if not request.FILES.get("audio"):
+            print("No audio file uploaded.")
+            if request.headers.get('Accept') == 'application/json':
+                return JsonResponse({"transcript": "No audio file uploaded.", "match": False}, status=400)
+            else:
+                return render(request, 'select_test.html', {"transcript": "No audio file uploaded."})
+        
+        print("Audio file uploaded.")
+        audio_file = request.FILES["audio"]
+        audio_file_path = os.path.join(settings.MEDIA_ROOT, "test_audio.wav")
+        
+        # Ensure the directory exists
+        os.makedirs(os.path.dirname(audio_file_path), exist_ok=True)
+        
+        with open(audio_file_path, "wb") as f:
             for chunk in audio_file.chunks():
                 f.write(chunk)
+        
+        if os.path.isfile(audio_file_path):
+            print("File exists!")
+        else:
+            print("File does not exist.")
+            if request.headers.get('Accept') == 'application/json':
+                return JsonResponse({"error": "Failed to save audio file"}, status=500)
+            
+        text = fapp_processor.audio_to_text(audio_file_path)
+        print(f"Transcribed text: {text}")
+        
+        if text.lower() == "how is the weather today":
+            status = True
+        else:
+            status = False
+        
+        # If this is an AJAX request, return JSON
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.headers.get('Accept') == 'application/json':
+            return JsonResponse({
+                "transcript": text,
+                "match": status
+            })
+        
+        # Otherwise return the HTML response
+        return render(request, 'select_test.html', {"transcript": text, "match": status})
     
-    if os.path.isfile(audio_file_path):
-        print(" File exists!")
-    else:
-        print(" File does not exist.")
-    text=fapp_processor.audio_to_text(audio_file_path)
-    print(text)
-    if text.lower()=="how is the weather today":
-        status=True
-    else:
-        status=False
+    except Exception as e:
+        print(f"Error in test_audio: {str(e)}")
+        if request.headers.get('Accept') == 'application/json':
+            return JsonResponse({"error": str(e)}, status=500)
+        else:
+            return render(request, 'select_test.html', {"transcript": f"Error: {str(e)}", "match": False})
+
+@csrf_exempt
+def store_audio_devices(request):
+    if request.method == "POST":
+        audio_device = request.POST.get("audio_device")
+        microphone = request.POST.get("microphone")
+        speaker = request.POST.get("speaker")
+        print("Audio device:", audio_device)
+        print("Microphone:", microphone)
+        print("Speaker:", speaker)
+        microphone_label = request.POST.get("microphone_label")
+        speaker_label = request.POST.get("speaker_label")
+        print("Microphone label:", microphone_label)
+        print("Speaker label:", speaker_label)
+        # Store the audio settings in the session
+        request.session["audio_device"] = audio_device
+        request.session["microphone"] = microphone
+        request.session["speaker"] = speaker
+        
+        return JsonResponse({"status": "success"})
     
-    # If this is an AJAX request, return JSON instead of rendering HTML
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.headers.get('Accept') == 'application/json':
-        return JsonResponse({
-            "transcript": text,
-            "match": status
-        })
-    
-    # Otherwise return the HTML response
-    return render(request, 'test_audio1.html', {"transcript": text, "match": status})
+    return JsonResponse({"status": "error", "message": "Invalid request method"}, status=400)
 
 @csrf_exempt
 def index(request):
