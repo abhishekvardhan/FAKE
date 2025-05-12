@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Performance Assessment Dashboard</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  <style>
+    :root {
+      --primary: #e74c3c;
+      --secondary: #e74c3c;
+      --success: #4cc9f0;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #adb5bd;
+      --light-gray: #e9ecef;
+      --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --gradient: linear-gradient(135deg, #e74c3c, #e74c3c);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f5f7fa;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background: var(--gradient);
+      color: white;
+      border-radius: 10px;
+      box-shadow: var(--card-shadow);
+    }
+    
+    .header h1 {
+      margin-bottom: 0.5rem;
+      font-size: 2rem;
+    }
+    
+    .header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+    
+    .summary-container {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      background: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: var(--card-shadow);
+    }
+    
+    .total-score {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    
+    .score-circle {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .score-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+    
+    .score-text h2 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: 0.2rem;
+    }
+    
+    .score-text p {
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+    
+    .resume-match {
+      flex-grow: 1;
+    }
+    
+    .match-title {
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .match-title i {
+      color: var(--primary);
+    }
+    
+    .match-bar {
+      height: 10px;
+      background-color: var(--light-gray);
+      border-radius: 5px;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+    }
+    
+    .match-progress {
+      height: 100%;
+      background: var(--gradient);
+      border-radius: 5px;
+      transition: width 1s ease-in-out;
+    }
+    
+    .match-percentage {
+      text-align: right;
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+    
+    .excel-link {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: var(--primary);
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: 500;
+      transition: background-color 0.3s;
+    }
+    
+    .excel-link:hover {
+      background-color: var(--secondary);
+    }
+    
+    .chart-container {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 2rem;
+    }
+    
+    .feedback-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .feedback-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: var(--card-shadow);
+      height: 100%;
+    }
+    
+    .feedback-card h3 {
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--light-gray);
+      font-size: 1.2rem;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .feedback-card h3 i {
+      color: var(--primary);
+    }
+    
+    .feedback-card ul {
+      list-style-type: none;
+    }
+    
+    .feedback-card li {
+      margin-bottom: 0.8rem;
+      padding-left: 1.5rem;
+      position: relative;
+      line-height: 1.5;
+    }
+    
+    .feedback-card li:before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: bold;
+    }
+    
+    .strengths h3 i {
+      color: #38b000;
+   
+    }
+    
+    .strengths li:before {
+      color: #38b000;
+    }
+    
+    .weaknesses h3 i {
+      color: #d90429;
+    }
+    
+    .weaknesses li:before {
+      color: #d90429;
+    }
+    
+    .improvements h3 i {
+      color: #fb8500;
+    }
+    
+    .improvements li:before {
+      color: #fb8500;
+    }
+    
+    @media (max-width: 768px) {
+      .feedback-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .summary-container {
+        flex-direction: column;
+      }
+      
+      .total-score {
+        margin-bottom: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Performance Assessment Dashboard</h1>
+      <p id="candidate-name">Candidate Name</p>
+    </div>
+    
+    <div class="summary-container">
+      <div class="total-score">
+        <div class="score-circle">
+          <canvas id="scoreChart"></canvas>
+          <div class="score-text">
+            <h2 id="total-score">0</h2>
+            <p>Total Score</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="resume-match">
+        <div class="match-title">
+          <i class="fas fa-file-alt"></i>
+          <span>Resume-JD Match Score</span>
+        </div>
+        <div class="match-bar">
+          <div class="match-progress" id="match-progress" style="width: 0%"></div>
+        </div>
+        <div class="match-percentage">
+          <span id="match-percentage">0%</span>
+        </div>
+        
+        <a href="#" class="excel-link" id="excel-link">
+          <i class="fas fa-download"></i> Download Response Sheet
+        </a>
+      </div>
+    </div>
+    
+    <div class="chart-container">
+      <canvas id="scoresChart"></canvas>
+    </div>
+    
+    <div class="feedback-container">
+      <div class="feedback-card strengths">
+        <h3><i class="fas fa-star"></i> Strengths</h3>
+        <ul id="strengths-list">
+          <li>Loading strengths...</li>
+          <li>Loading strengths...</li>
+          <li>Loading strengths...</li>
+        </ul>
+      </div>
+      
+      <div class="feedback-card weaknesses">
+        <h3><i class="fas fa-exclamation-circle"></i> Weaknesses</h3>
+        <ul id="weaknesses-list">
+          <li>Loading weaknesses...</li>
+          <li>Loading weaknesses...</li>
+          <li>Loading weaknesses...</li>
+        </ul>
+      </div>
+      
+      <div class="feedback-card improvements">
+        <h3><i class="fas fa-arrow-up"></i> Improvements</h3>
+        <ul id="improvements-list">
+          <li>Loading improvements...</li>
+          <li>Loading improvements...</li>
+          <li>Loading improvements...</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Parse the dashboard data safely
+    let sampleData;
+    try {
+      const rawData = JSON.parse('{{ table_data|safe }}');
+      sampleData = rawData;
+
+      console.log('Parsed dashboard data:', sampleData);
+    } catch (error) {
+      console.error('Error parsing dashboard data:', error);
+      sampleData = {
+        name: 'Candidate',
+        totalScore: 0,
+        technical: 0,
+        behavior: 0,
+        projectLevel: 0,
+        scenarioBased: 0,
+        resumeJdSimilarity: 0,
+        strengths: ['Unable to load strengths'],
+        weaknesses: ['Unable to load weaknesses'],
+        improvements: ['Unable to load improvements'],
+        excelLink: '#'
+      };
+    }
+    
+    // Function to initialize the dashboard with data
+    function initDashboard(data) {
+      // Set candidate name
+      document.getElementById('candidate-name').textContent = data.name;
+      
+      // Set total score
+      document.getElementById('total-score').textContent = data.totalScore;
+      
+      // Set Resume-JD match score
+      document.getElementById('match-progress').style.width = `${data.resumeJdSimilarity}%`;
+      document.getElementById('match-percentage').textContent = `${data.resumeJdSimilarity}%`;
+      
+      // Set excel download link
+      document.getElementById('excel-link').href = data.excelLink;
+      
+      // Populate strengths
+      const strengthsList = document.getElementById('strengths-list');
+      strengthsList.innerHTML = '';
+      data.strengths.forEach(strength => {
+        const li = document.createElement('li');
+        li.textContent = strength;
+        strengthsList.appendChild(li);
+      });
+      
+      // Populate weaknesses
+      const weaknessesList = document.getElementById('weaknesses-list');
+      weaknessesList.innerHTML = '';
+      data.weaknesses.forEach(weakness => {
+        const li = document.createElement('li');
+        li.textContent = weakness;
+        weaknessesList.appendChild(li);
+      });
+      
+      // Populate improvements
+      const improvementsList = document.getElementById('improvements-list');
+      improvementsList.innerHTML = '';
+      data.improvements.forEach(improvement => {
+        const li = document.createElement('li');
+        li.textContent = improvement;
+        improvementsList.appendChild(li);
+      });
+      
+      // Create total score chart (donut chart)
+      const scoreCtx = document.getElementById('scoreChart').getContext('2d');
+      new Chart(scoreCtx, {
+        type: 'doughnut',
+        data: {
+          datasets: [{
+            data: [data.totalScore, 100 - data.totalScore],
+            backgroundColor: [
+              '#e74c3c',
+              '#e9ecef'
+            ],
+            borderWidth: 0,
+            cutout: '75%'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              enabled: false
+            }
+          }
+        }
+      });
+      
+      // Create scores bar chart
+      const scoresCtx = document.getElementById('scoresChart').getContext('2d');
+      new Chart(scoresCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Technical', 'Behavior', 'Project Level', 'Scenario Based'],
+          datasets: [{
+            label: 'Score',
+            data: [
+              data.technical,
+              data.behavior,
+              data.projectLevel,
+              data.scenarioBased
+            ],
+            backgroundColor: [
+              '#e7da4b',
+              '#33df08',
+              '#08d1df',
+              '#d06af8'
+            ],
+            borderColor: [
+              '#e7da4b',
+              '#33df08',
+              '#08d1df',
+              '#d06af8'
+            ],
+            borderWidth: 1,
+            borderRadius: 5
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false
+            },
+            title: {
+              display: true,
+              text: 'Performance Scores Breakdown',
+              font: {
+                size: 16
+              },
+              padding: {
+                bottom: 20
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              ticks: {
+                callback: function(value) {
+                  return value + '%';
+                }
+              }
+            },
+            x: {
+              grid: {
+                display: false
+              }
+            }
+          }
+        }
+      });
+    }
+    
+    // Load Font Awesome for icons
+    function loadFontAwesome() {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css';
+      document.head.appendChild(link);
+    }
+  
+    // Initialize dashboard when page loads
+    window.onload = function() {
+      loadFontAwesome();
+      
+      // In a real application, you would fetch the JSON data from an API
+      // For this example, we'll use the sample data directly
+
+      initDashboard(sampleData);
+      
+      // Example of how you would fetch data from an API:
+      
+      fetch('/show-dashboard/')
+        .then(response => response.json())
+        .then(data => {
+          initDashboard(data);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+      
+    };
+    
+    // Function to process and display real JSON data
+    function processJsonData(jsonData) {
+      // Parse JSON if it's a string
+      const data = typeof jsonData === 'string' ? JSON.parse(jsonData) : jsonData;
+      initDashboard(data);
+    }
+    
+    // This function would be called when actual JSON data is available
+    // window.processJsonData = processJsonData;
+  </script>
+</body>
+</html>

@@ -161,9 +161,35 @@
     .test-btn:hover {
       background-color: #219955;
     }
+    .timer-display {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #e74c3c;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      display: none;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    
+    .timer-display.warning {
+      background-color: #f39c12;
+      animation: pulse 1s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
   </style>
 </head>
 <body>
+  <div id="timer-display" class="timer-display">60</div>
   <div class="container">
     <h1>Test Audio</h1>
 

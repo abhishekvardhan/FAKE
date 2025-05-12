@@ -8,6 +8,8 @@ class InterviewResponse(models.Model):
     # Question and answer information
     question_number = models.IntegerField()
     question_text = models.TextField(null=True, blank=True)
+    expected_answer = models.TextField(null=True, blank=True)
+    feedback = models.TextField(null=True, blank=True)
     
     answer_text = models.TextField(null=True, blank=True)
     # Score information
@@ -50,6 +52,10 @@ class resumebased_interview(models.Model):
     behavioral_score = models.FloatField(null=True, blank=True)
     project_score = models.FloatField(null=True, blank=True)
     scenario_score = models.FloatField(null=True, blank=True)
+    strengths = models.TextField(null=True, blank=True)
+    weaknesses = models.TextField(null=True, blank=True)
+    interview_date = models.DateTimeField(auto_now_add=True)
+    improvement = models.TextField(null=True, blank=True)
 class IntervieweeSkill(models.Model):
     # Changed from skillbased_interview to IntervieweeDetails
     interviewee = models.ForeignKey(IntervieweeDetails, on_delete=models.CASCADE, related_name='interviewee_skills')

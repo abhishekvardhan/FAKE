@@ -7,11 +7,13 @@ from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt 
 from django.http import JsonResponse
 import random
+from . import fapp_resume_processor
 from . import fapp_processor
 from fakeapp.models import InterviewResponse,IntervieweeDetails, IntervieweeSkill, skillbased_interview, resumebased_interview
 from urllib.parse import unquote
 # Ensure counter is defined
 import logging
+import json
 logger = logging.getLogger('simple_logger')
 
 def get_skills(request):
@@ -24,47 +26,64 @@ def save_user_info(request):
     if request.method == "POST":
         try:
             name = request.POST.get("Name")
-            session_id=str(''.join(random.choices(string.ascii_letters + string.digits, k=6)))
-            Intervieweeobj = IntervieweeDetails.objects.create(name=name, session_id=session_id )
-            print(request.POST.get("interview_type"))
+            request.session["Name"] = name
+            session_id = str(''.join(random.choices(string.ascii_letters + string.digits, k=6)))
+            Intervieweeobj = IntervieweeDetails.objects.create(name=name, session_id=session_id)
+            
+            # Set session data
+            request.session["session_id"] = session_id
+            request.session["counter"] = 0
+            request.session["interview_type"] = request.POST.get("interview_type", "skill_based")
+            
             if request.POST.get("interview_type") == "skill_based":
                 selected_skills = request.POST.getlist("skills")
-                print("Name:",name)
-                print("Selected skills:", selected_skills)
-                no_of_questions=request.POST.get("question_count")
-
-                print("No of questions:", no_of_questions)
-                
-                request.session["session_id"] = session_id
-                MAX_CYCLES=int(no_of_questions)
-                request.session["MAX_CYCLES"]=MAX_CYCLES
+                no_of_questions = request.POST.get("question_count")
+                MAX_CYCLES = int(no_of_questions)
+                request.session["MAX_CYCLES"] = MAX_CYCLES
                 skillbased_interview_obj = skillbased_interview.objects.create(interviewee=Intervieweeobj, question_count=MAX_CYCLES)
                 for skill in selected_skills:
                     IntervieweeSkill.objects.create(interviewee=Intervieweeobj, skill_name=skill)
             else:
-                # resumebased_interview_obj = resumebased_interview.objects.create(interviewee=Intervieweeobj, )
                 request.session["interview_type"] = "resume_based"
+                company_name = request.POST.get("company_name", "")
                 resume_file = request.FILES.get("resume")
+                jd = request.POST.get("job_description", "")
                 
-                print("Resume file:", resume_file)
-                jd= request.POST.get("job_description", "")
-                
-                
-                #save the resume file to the media directory
                 if resume_file:
-                    # Ensure the directory exists
                     resume_dir = os.path.join(settings.MEDIA_ROOT, "resumes")
                     os.makedirs(resume_dir, exist_ok=True)
-                    
                     resume_path = os.path.join(resume_dir, session_id+resume_file.name)
                     with open(resume_path, "wb") as f:
                         for chunk in resume_file.chunks():
                             f.write(chunk)
-                    print("Resume saved at:", resume_path)
-                    resume_data=fapp_processor.extract_resume_text(resume_path)
-                    resumebased_interview_obj = resumebased_interview.objects.create(interviewee=Intervieweeobj, resume_json=resume_data, job_description=jd)
-                    
+                    resume_text = fapp_processor.extract_resume_text(resume_path)
+                    initial_state = fapp_resume_processor.initialize_state({
+                        "resume": resume_text,
+                        "job_description": jd,
+                        "company_name": company_name,
+                        "responses": [],
+                        "conversation_history": [],
+                        "current_question_type": "extract_resume_data",
+                        "current_question_index": 0
+                    })
+                    try:
+                        state = fapp_resume_processor.extract_resume_data(initial_state)
+                        state = fapp_resume_processor.extract_job_data(state)
+                        state = fapp_resume_processor.perform_match_analysis(state)
+                    except Exception as e:
+                        logger.error(f"Data processing error: {str(e)}")
+                        state = initial_state
+                    state["current_question_type"] = "project"
+                    request.session["state"] = state
+                    resumebased_interview_obj = resumebased_interview.objects.create(
+                        interviewee=Intervieweeobj,
+                        resume_json=state.get("resume_data", {}),
+                        job_description=jd,
+                        job_description_json=state.get("job_data", {})
+                    )
             
+            # Save session after all modifications
+            request.session.save()
             return JsonResponse({'redirect_url': '/test-audio/'})
         except Exception as e:
             print(f"Error in save_user_info: {str(e)}")
@@ -157,41 +176,65 @@ def store_audio_devices(request):
 
 @csrf_exempt
 def index(request):
-    # if request.method == "POST":
-        #pass the audio settings here
-        # Generate the audio file using gTTS
-        
+    # Get device information from session
+    microphone = request.session.get("microphone", "")
+    speaker = request.session.get("speaker", "")
+    microphone_label = request.session.get("microphone_label", "Default Microphone")
+    speaker_label = request.session.get("speaker_label", "Default Speaker")
+    
     audio_file_path = os.path.join(settings.MEDIA_ROOT, "recorded_audi1.mp3")
     if os.path.isfile(audio_file_path):
         print(" File exists!")
     else:
         print(" File does not exist.")
     relative_media_url = os.path.join(settings.MEDIA_URL, "recorded_audi1.mp3")
-
     audio_file_url = request.build_absolute_uri(relative_media_url)
     
-        
     print(audio_file_url)
-    return render(request, 'index.html',{"audio_file_url":audio_file_url })
+    return render(request, 'index.html', {
+        "audio_file_url": audio_file_url,
+        "microphone": microphone,
+        "speaker": speaker,
+        "microphone_label": microphone_label,
+        "speaker_label": speaker_label
+    })
 
 
 @csrf_exempt
 def upload_audio(request):
     if request.method == "POST" and request.FILES.get("audio"):
         audio_file = request.FILES["audio"]
-        session_id=request.session.get("session_id", "unknown_session")
+        print("the session_id is")
+        session_id = request.session.get("session_id", "unknown_session")
+        print(session_id)
+        
         if request.session.get("counter") is None:
             request.session["counter"] = 0
-        counter=request.session["counter"]
-        MAX_CYCLES= request.session["MAX_CYCLES"]
+        counter = request.session["counter"]
+        MAX_CYCLES = request.session.get("MAX_CYCLES", 0)
+        if request.session.get("interview_type") == "resume_based":
+            MAX_CYCLES = 11
+
         print(session_id)
         save_path = os.path.join(settings.MEDIA_ROOT, f"{session_id}_response_{counter}.wav")
 
-
+        interview_type = request.session.get("interview_type", "skill_based")
         with open(save_path, "wb") as f:
             for chunk in audio_file.chunks():
                 f.write(chunk)
-        question,audio_file,prev_ans,marks=fapp_processor.audio_processor(save_path,session_id,counter,MAX_CYCLES)
+        if request.session.get("interview_type") == "skill_based":
+            question, audio_file, prev_ans, marks, feedback = fapp_processor.audio_skill_processor(save_path, session_id, counter, MAX_CYCLES)
+        else:
+            state = request.session.get("state", {})
+            if state.get("current_question_number") is None:
+                state["current_question_number"] = 0
+            if state.get("current_question_type") != "perform_assessment":
+                print("Performing resume-based assessment")
+                print(state["responses"])
+                question, audio_file, prev_ans, marks, feedback = fapp_processor.audio_resume_processor(save_path, session_id, counter,MAX_CYCLES, state)
+            
+            request.session["state"] = state
+            request.session.save()  # Save the session after modification
         if counter > 0: 
             try:
                 prev_response = InterviewResponse.objects.get(
@@ -200,6 +243,7 @@ def upload_audio(request):
                 )
                 prev_response.answer_text = prev_ans
                 prev_response.score = marks
+                prev_response.feedback = feedback
                 prev_response.save()
             except InterviewResponse.DoesNotExist:
                 # Handle the case if the record doesn't exist
@@ -209,7 +253,8 @@ def upload_audio(request):
         InterviewResponse.objects.create(
             session_id=session_id,
             question_number=counter + 1,
-            question_text=question
+            question_text=question,
+           
         )
         show_text = f"{counter+1}. {question}"
         # print("Audio file URL:", audio_file_url)
@@ -219,7 +264,6 @@ def upload_audio(request):
         relative_media_url = os.path.join(settings.MEDIA_URL, audio_file)
         audio_file_url = request.build_absolute_uri(relative_media_url)
         # audio_file_url = unquote(audio_file_url)
-        
 
         response_data = {
             "audio_url":audio_file_url,
@@ -228,7 +272,6 @@ def upload_audio(request):
             "is_last": counter >= MAX_CYCLES - 1, 
             "session_id": session_id,
         }
-        
         request.session["counter"]=counter+1
         return JsonResponse(response_data)
 
@@ -239,14 +282,43 @@ def result(request):
 
     serial=request.POST.get("serial")
     print("serial is "+serial)
-    request.session.flush()
-    df_results=fapp_processor.get_results_from_db(serial)
-    request.session['result_data'] = df_results
-    print("Result data brfore:", df_results)
-    return JsonResponse({'redirect_url': '/show-result/'})
+    state = request.session.get("state", {})
+    if request.session.get("interview_type") == "resume_based":
+        state= fapp_resume_processor.perform_assessment(state)
+        list_of_questions=request.session["state"]["list_of_questions"]
+        with open('listofquestions.json', 'w', encoding="utf-8") as f:
+            f.write(str(list_of_questions))
+        
+        assessment = state.get("assessment", {})
+        assessment["Name"] =request.session["Name"] 
+        with open('assesment.json', 'w', encoding="utf-8") as f:
+            f.write(str(assessment))
+        # send assesment json to html as sample data. also save list of questions in excel as send to html as excelLink 
+        excel_path = fapp_processor.generate_excel_report(list_of_questions, assessment, serial)
+        
+        # Format data for the dashboard
+        dashboard_data = fapp_processor.format_dashboard_data(assessment, excel_path)
+        request.session['dashboard_data'] = dashboard_data
+        return JsonResponse({'redirect_url': '/show-dashboard/'})
+    else:
+        
+        df_results=fapp_processor.get_results_from_db(serial)
+        request.session['result_data'] = df_results
+        print("Result data brfore:", df_results)
+        return JsonResponse({'redirect_url': '/show-result/'})
 
 def show_result(request):
+    
     result_data = request.session.get('result_data', [])
     print("Result data:", result_data)
-    
+    request.session.flush()
     return render(request, 'results.html', {"table_data": result_data})
+
+def show_dashboard(request):
+    dashboard_data = request.session.get('dashboard_data', {})
+    if 'excelLink' in dashboard_data:
+        dashboard_data['excelLink'] = request.build_absolute_uri(dashboard_data['excelLink'])
+    
+    print(dashboard_data)
+    request.session.flush()  # Clear the session after getting the data
+    return render(request, 'dashboard.html', {"table_data": json.dumps(dashboard_data)})

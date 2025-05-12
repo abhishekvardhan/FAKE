@@ -1,0 +1,345 @@
+{
+    "resume": "Abhishek Vardhan Narayanam\nEmail: abhivsp10@gmail.com Github: abhishekvardhan Phone: +91 9550289359\nPROFESSIONAL SUMMARY\nInnovative Python Developer with close to 3 years of experience in building and enhancing robust applications using Flask, Machine\nLearning, Deep learning, SQL, CICD development and Generative AI. Currently leading a team of three, I drive key projects like the Bank\nStatement Analyzer and a self-initiated in-house OCR solution, significantly reducing costs by eliminating third-party dependencies.\nPossesses deep knowledge of the financial domain coupled with excellent communication and collaboration skills.\nEXPERIENCE\n\uf0b7 Development Bank of Singapore Hyderabad\nAnalyst\nJune 2022 - Present\n◦ Bank statement Analysis (BSA) Application: Designed, developed, and managed the Bank Statement Analyzer (BSA) web\napplication. The application delivers financial insights by leveraging advanced data analysis and visualization tools,\nhelping evaluate customers financial capabilities. Played a key role in resolving bugs, incorporating user requirements,\nand implementing customized insights to enhance functionality. Deployed the application on OpenShift, ensuring its\nscalability and reliability. Regularly performed technical upgrades and collaborated with cross-functional teams to deliver\na robust, user-friendly solution.\nTechnologies used: Numpy, Pandas, Flask, SQL, Jenkins, OCP, Jenkins\n◦ ML-Based Loan Approval System: Built and deployed a Machine Learning model to help predict loan approvals in the\nBank Statement Analysis (BSA) system. The model supports Relationship Managers (RMs) by providing automated loan\npredictions, requiring explanations when decisions differ from the models suggestions. Used feature engineering and\noversampling to handle imbalanced data, focusing on high recall to reduce fraudulent approvals. Added a performance\ntracking dashboard (Precision, Recall, F1-score) and planned regular model updates.\nTechnologies used: Scikit-learn, Pandas, Flask, SQL, Pickle, Feature Engineering, Model Deployment, ML Flow\n◦ In-House OCR Solution: Developed an in-house Python OCR solution to extract data from various bank statement\ntemplates, replacing an expensive third-party service. Achieved a significant accuracy improvement from 91% to 99%\nand enhanced response speed, making the system 3x faster. This led to a $300K reduction in annual renewal costs while\nimproving processing efficiency.\nTechnologies used: Py-tabula, Pymu-pdf, Pypdf2\n◦ Testcase generator using Genai: Developed and fine-tuned a Large Language Model (LLM) using LoRA and\nQLoRA techniques on Vertex API to automate the conversion of test instructions into BDD format. Custom\nprompts and example-driven training were used to enhance model accuracy. The model was quantized to improve\nprocessing speed. This solution reduced 80 man-hours by generating 500 automated test cases, significantly\nincreasing testing efficiency.\nTechnologies used: Langchain, Vertex ai, Few short templates, QLoRA\n+\n◦ Interactive Dash Dashboard for BSA Application: Developed an interactive Dash dashboard for real-time BSA\nanalysis, featuring visualizations such as pie charts, bar graphs, and line plots. The dashboard enabled quick insights\nand data- driven decision-making by displaying key metrics and trends.\nTechnologies used : Pandas, SQL, Dash , Bootstrap, Plotly\nSKILLS SUMMARY\nLanguages & Tools: Python, C++, Java, SQL, BASH, Docker, GIT, PostgreSQL, MySQL\nFrameworks & Libraries: Flask, Django, DASH ,TensorFlow, PyTorch, Keras, Open CV\nWeb Technologies: HTML, CSS, JavaScript, Bootstrap, Angular\nCloud Technologies: EC2, VPC, Lambda, Route 53, ECS, SNS, SQS, S3, Heroku, Openshift\nDev-ops tool: Git, Linux, Jenkins, Docker, CICD pipelines\nML Algorithams: Logistic Regression, Linear Regression, KNN, PCA, Random Forest, XG Boost\nNLP tools: RNN, LSTM, Transformers, BERT, GPT\nGen AI tools: Lang-chain, Neo4j, Lang-graph, Advanced RAG, LLM Fine-Tuning (LoRA, PEFT),\nSkills: Leadership, Stakeholder Management, Cross-functional Collaboration, Agile Methodologies, Teamwork\nPUBLICATIONS\nParts of Speech Tagging using Viterbi algorithm Read Publication\nPublished in the International Journal of Scientific Research in Engineering and Management May 2022\nPROJECTS\nMovie Recommendation System GitHub Repo\nDeveloped a content-based movie recommender system deployed on AWS EC2 instance and configured Domain name\nusing AWS Rote53. Used cosine similarity and Naive Bayes sentiment analysis to enhance recommendations from IMDB\ndata on 4,000 movies. This project showcases skills in recommendation systems, machine learning, cloud deployment, and\nAPI data acquisition.\nTechnologies used: Cosine similarity, Pandas, NLP, EC2, Route53, Naïve Bayes, FlaskDatabase Query Chatbot\nDeveloped a chatbot using Streamlit that retrieves data from multiple databases based on natural language prompts.\nIntegrated the Llama 3 model and LangChain SQL agents to convert prompts into SQL queries, with error-handling to refine\nqueries for accurate results. Enabled seamless connection to SQLite or MySQL Workbench, allowing database selection\nbased on requirements. Implemented a history tab to track previous queries and responses for reference. The application\nsupports complex queries, optimizes performance for large datasets, and features a modular design for future scalability.\nTechnologies used: Flask, Langchain, SQL_agent, Openai\nHONORS AND AWARDS\n• Employee of The Month (Jan - 2024)\nRecognized for developing and fine-tuning a Large Language Model (LLM) using LoRA and QLoRA techniques on\nVertex API to automate the conversion of test instructions into BDD format.\n• Tech Hero Award - 2024\nRecognized for conceptualizing and developing an in-house Python OCR solution increasing response speed by\n3x, and reducing annual renewal costs by $300K.\nCERTIFICATIONS AND COURSES\nRed Hat Certified System Administration (RHCSA)\nOptical Character Recognition (OCR) (Udemy)\nEDUCATION\n\uf0b7 Gitam University\nBachelor of Technology – Computer Science July 2018 - May 2022",
+    "job_description": "Required Skills:\r\n\r\nStrong programming experience in Python.\r\nSolid background in deep learning, CNNs, and transfer learning and Machine learning basics.\r\nExpertise in object detection, classification, segmentation.\r\nProficiency with PyTorch, TensorFlow, and ONNX.\r\nExperience with GPU acceleration (CUDA, cuDNN).\r\nHands-on knowledge of model optimization (pruning, quantization).\r\nExperience deploying models to edge devices (e.g., Jetson, mobile, Orin, Hailo )\r\nUnderstanding of image processing techniques.\r\nFamiliarity with data pipelines, data preprocessing, and data analytics.\r\nWillingness to explore and contribute to Generative AI and cloud-based AI solutions.\r\nGood problem-solving and communication skills",
+    "company_name": "",
+    "responses": [],
+    "conversation_history": [
+        {
+            "role": "assistant",
+            "content": "Tell me about yourself",
+            "question_number": 1,
+            "expected_answer": "Write a brief introduction about yourself"
+        },
+        {
+            "role": "user",
+            "content": "I will tell you ok"
+        }
+    ],
+    "current_question_type": "perform_assessment",
+    "current_question_index": 0,
+    "resume_data": {
+        "skills": {
+            "Python": "proficient",
+            "Flask": "proficient",
+            "Machine Learning": "expert",
+            "Deep learning": "proficient",
+            "SQL": "proficient",
+            "CICD development": "proficient",
+            "Generative AI": "proficient",
+            "C++": "basic",
+            "Java": "basic",
+            "BASH": "basic",
+            "Docker": "basic",
+            "GIT": "basic",
+            "PostgreSQL": "basic",
+            "MySQL": "basic",
+            "HTML": "basic",
+            "CSS": "basic",
+            "JavaScript": "basic",
+            "Bootstrap": "basic",
+            "Angular": "basic",
+            "EC2": "basic",
+            "VPC": "basic",
+            "Lambda": "basic",
+            "Route 53": "basic",
+            "ECS": "basic",
+            "SNS": "basic",
+            "SQS": "basic",
+            "S3": "basic",
+            "Openshift": "basic",
+            "PyTorch": "basic",
+            "Keras": "basic",
+            "Open CV": "basic",
+            "Logistic Regression": "basic",
+            "Linear Regression": "basic",
+            "KNN": "basic",
+            "PCA": "basic",
+            "Random Forest": "basic",
+            "XG Boost": "basic",
+            "RNN": "basic",
+            "LSTM": "basic",
+            "Transformers": "basic",
+            "BERT": "basic",
+            "GPT": "basic",
+            "Lang-chain": "basic",
+            "Neo4j": "basic",
+            "Lang-graph": "basic",
+            "Advanced RAG": "basic",
+            "LLM Fine-Tuning (LoRA, PEFT)": "basic",
+            "Leadership": "proficient",
+            "Stakeholder Management": "proficient",
+            "Cross-functional Collaboration": "proficient",
+            "Agile Methodologies": "proficient",
+            "Teamwork": "proficient"
+        },
+        "projects": [
+            {
+                "title": "Movie Recommendation System",
+                "description": "Developed a content-based movie recommender system deployed on AWS EC2 instance and configured Domain name using AWS Rote53.",
+                "technologies": [
+                    "Cosine similarity",
+                    "Pandas",
+                    "NLP",
+                    "EC2",
+                    "Route53",
+                    "Naïve Bayes",
+                    "Flask"
+                ],
+                "outcomes": [
+                    "Showcases skills in recommendation systems",
+                    "Machine learning",
+                    "Cloud deployment",
+                    "API data acquisition"
+                ]
+            },
+            {
+                "title": "Database Query Chatbot",
+                "description": "Developed a chatbot using Streamlit that retrieves data from multiple databases based on natural language prompts.",
+                "technologies": [
+                    "Flask",
+                    "Langchain",
+                    "SQL_agent",
+                    "Openai"
+                ],
+                "outcomes": [
+                    "Implemented a history tab to track previous queries and responses for reference",
+                    "Enabled seamless connection to SQLite or MySQL Workbench, allowing database selection based on requirements"
+                ]
+            }
+        ],
+        "experience": [
+            {
+                "company": "Development Bank of Singapore Hyderabad",
+                "role": "Analyst",
+                "duration": "June 2022 - Present",
+                "responsibilities": [
+                    "Designed, developed, and managed the Bank Statement Analyzer (BSA) web application",
+                    "Built and deployed a Machine Learning model to help predict loan approvals in the Bank Statement Analysis (BSA) system",
+                    "Developed an in-house Python OCR solution to extract data from various bank statement templates, replacing an expensive third-party service",
+                    "Developed and fine-tuned a Large Language Model (LLM) using LoRA and QLoRA techniques on Vertex API to automate the conversion of test instructions into BDD format",
+                    "Developed an interactive Dash dashboard for real-time BSA analysis, featuring visualizations such as pie charts, bar graphs, and line plots"
+                ]
+            }
+        ],
+        "education": {
+            "degree": "Bachelor of Technology – Computer Science",
+            "institution": "Gitam University",
+            "graduationDate": "May 2022"
+        }
+    },
+    "job_data": {
+        "top_skills": {
+            "technical_skills": [
+                "Python",
+                "deep learning",
+                "transfer learning",
+                "Machine learning",
+                "PyTorch",
+                "TensorFlow",
+                "ONNX",
+                "GPU acceleration",
+                "CUDA",
+                "cuDNN",
+                "model optimization",
+                "image processing techniques",
+                "data pipelines",
+                "data preprocessing",
+                "data analytics"
+            ],
+            "soft_skills": [
+                "problem-solving",
+                "communication"
+            ]
+        },
+        "preferred_skills": [
+            "Generative AI",
+            "cloud-based AI solutions"
+        ],
+        "roles_responsibilities": [],
+        "behavioral_requirements": [],
+        "domain": "Artificial Intelligence"
+    },
+    "match_analysis": {
+        "matching_skills": [
+            "Python",
+            "Machine Learning",
+            "Deep learning",
+            "Generative AI"
+        ],
+        "missing_skills": [
+            "transfer learning",
+            "TensorFlow",
+            "ONNX",
+            "GPU acceleration",
+            "CUDA",
+            "cuDNN",
+            "model optimization",
+            "image processing techniques",
+            "data pipelines",
+            "data preprocessing",
+            "data analytics",
+            "cloud-based AI solutions"
+        ],
+        "skill_match_percentage": 35,
+        "experience_match": {
+            "rating": "good",
+            "explanation": "The candidate has relevant experience in developing and deploying machine learning models, and has worked on cloud-based solutions such as AWS EC2 and Route53."
+        }
+    },
+    "technical_questions": [
+        {
+            "question": "What is the primary difference between a Generative AI model and a Deep Learning model?",
+            "expected_answer": "A Generative AI model generates new data that resembles existing data, whereas a Deep Learning model makes predictions based on existing data. Generative AI models are typically used for tasks like image generation and data augmentation.",
+            "question_type": "technical"
+        },
+        {
+            "question": "How do you handle overfitting in a deep learning model, and what techniques have you found to be most effective?",
+            "expected_answer": "I typically handle overfitting by implementing regularization techniques such as dropout and L1/L2 regularization. Ive found that early stopping and data augmentation are also effective in preventing overfitting.",
+            "question_type": "technical"
+        },
+        {
+            "question": "What is the purpose of the activation function in a deep learning model?",
+            "expected_answer": "The activation function introduces non-linearity in the model, enabling it to learn and non-linear relationships between the inputs and outputs. Common examples of activation functions include ReLU, Sigmoid, and Tanh.",
+            "question_type": "technical"
+        },
+        {
+            "question": "What is the main difference between a Variational Autoencoder (VAE) and a Generative Adversarial Network (GAN) in terms of their underlying architecture and training objectives?",
+            "expected_answer": "A VAE consists of an encoder and a decoder, and its objective is to learn a probabilistic representation of the input data by maximizing the evidence lower bound (ELBO). A GAN, on the other hand, consists of a generator and a discriminator, and its objective is to learn a generative model that produces new samples that are indistinguishable from real samples.",
+            "question_type": "technical"
+        }
+    ],
+    "project_questions": [
+        {
+            "question": "In your Movie Recommendation System project, how did you optimize the cosine similarity algorithm for large datasets, and what metric did you use to measure its performance?",
+            "expected_answer": "I used a combination of dimensionality reduction and parallel processing to optimize the algorithm. I used precision at k as the metric to evaluate the performance of the recommendation system.",
+            "question_type": "project"
+        },
+        {
+            "question": "In your Bank Statement Analyzer (BSA) project, what was the approach you took to fine-tune the Large Language Model (LLM) using LoRA and QLoRA techniques on Vertex API, and what metric did you use to evaluate the models performance?",
+            "expected_answer": "I used a combination of masked language modeling and next sentence prediction to fine-tune the LLM. I used perplexity as the metric to evaluate the models performance.",
+            "question_type": "project"
+        },
+        {
+            "question": "In your Movie Recommendation System project, why did you choose Flask over other alternatives for building the API, and what benefits did it provide?",
+            "expected_answer": "I chose Flask for its lightweight and flexible architecture, which allowed me to quickly deploy the API and integrate it with the EC2 instance. Flask provided benefits such as rapid development and ease of deployment.",
+            "question_type": "project"
+        }
+    ],
+    "scenario_questions": [
+        {
+            "question": "One of your machine learning models deployed on AWS EC2 instance is experiencing high latency and is impacting the real-time predictions. How would you troubleshoot and resolve this issue?",
+            "expected_answer": "I would first check the instance type and ensure it has sufficient resources to handle the load. Then, I would investigate the models complexity to see if theres an opportunity to optimize it for faster predictions.",
+            "question_type": "scenario"
+        },
+        {
+            "question": "During a critical deployment of a machine learning model on AWS EC2, you realize that the Route53 configuration is causing a latency issue. How would you handle this situation and ensure a timely resolution?",
+            "expected_answer": "I would first isolate the issue by checking the Route53 logs and then collaborate with the DevOps team to identify the root cause. Then, I would workarounds such as using an alternative DNS service or adjusting the instance type to mitigate the latency issue and ensure a timely resolution.",
+            "question_type": "scenario"
+        }
+    ],
+    "behavioral_questions": [
+        {
+            "question": "Can you describe a situation where you had to explain complex AI models to a cross-functional team, and how you ensured everyone was aligned on the project goals?",
+            "expected_answer": "In my previous role, I had to present AI model results to a team of product managers and designers. I created a simple analogy to explain the models functionality, and ensured everyone understood by asking for feedback and incorporating their input into the presentation.",
+            "question_type": "behavioral"
+        },
+        {
+            "question": "Can you describe a situation where you had to explain a complex AI model to a cross-functional team, and how you handled any disagreements or misconceptions that arose?",
+            "expected_answer": "I recall a project where I had to present a deep learning model to a team of developers, product managers, and designers. I prepared by creating visual aids and analogies to simplify the technical aspects, and encouraged open discussion to address any misconceptions early on.",
+            "question_type": "behavioral"
+        }
+    ],
+    "assessment": "",
+    "current_step": "generate_technical_questions",
+    "current_question_number": 2,
+    "list_of_questions": [
+        {
+            "question": "In your Movie Recommendation System project, how did you optimize the cosine similarity algorithm for large datasets, and what metric did you use to measure its performance?",
+            "expected_answer": "I used a combination of dimensionality reduction and parallel processing to optimize the algorithm. I used precision at k as the metric to evaluate the performance of the recommendation system.",
+            "question_type": "project",
+            "score": 0,
+            "feedback": "The candidates response does not address the question at all. A good response would provide specific details on how they optimized the cosine similarity algorithm and what metric they used to measure its performance.",
+            "answer": "OK I will tell you"
+        },
+        {
+            "question": "In your Bank Statement Analyzer (BSA) project, what was the approach you took to fine-tune the Large Language Model (LLM) using LoRA and QLoRA techniques on Vertex API, and what metric did you use to evaluate the models performance?",
+            "expected_answer": "I used a combination of masked language modeling and next sentence prediction to fine-tune the LLM. I used perplexity as the metric to evaluate the models performance.",
+            "question_type": "project",
+            "score": 0,
+            "feedback": "The candidate did not provide a meaningful response to the question, indicating a lack of understanding of the topic or inability to communicate their approach and results. A more detailed explanation of their approach, including the specific techniques used and metrics evaluated, would be expected in a successful response.",
+            "answer": "error"
+        },
+        {
+            "question": "In your Movie Recommendation System project, why did you choose Flask over other alternatives for building the API, and what benefits did it provide?",
+            "expected_answer": "I chose Flask for its lightweight and flexible architecture, which allowed me to quickly deploy the API and integrate it with the EC2 instance. Flask provided benefits such as rapid development and ease of deployment.",
+            "question_type": "project",
+            "score": 0,
+            "feedback": "The candidates response indicates a lack of preparation and knowledge about their own work. They should be able to explain their design choices and technical decisions, and provide specific benefits and trade-offs.",
+            "answer": "I still dont know the"
+        },
+        {
+            "question": "What is the primary difference between a Generative AI model and a Deep Learning model?",
+            "expected_answer": "A Generative AI model generates new data that resembles existing data, whereas a Deep Learning model makes predictions based on existing data. Generative AI models are typically used for tasks like image generation and data augmentation.",
+            "question_type": "technical",
+            "score": 0,
+            "feedback": "Honesty is appreciated, but its essential to demonstrate some knowledge or attempt to answer the question. Consider explaining what you do know about AI models or asking for clarification to showcase your problem-solving skills.",
+            "answer": "I dont know the answer"
+        },
+        {
+            "question": "How do you handle overfitting in a deep learning model, and what techniques have you found to be most effective?",
+            "expected_answer": "I typically handle overfitting by implementing regularization techniques such as dropout and L1/L2 regularization. Ive found that early stopping and data augmentation are also effective in preventing overfitting.",
+            "question_type": "technical",
+            "score": 0,
+            "feedback": "The candidates response is not valid. They should provide a detailed explanation of how they handle overfitting in a deep learning model and the techniques they find most effective, such as regularization, early stopping, data augmentation, etc.",
+            "answer": "error"
+        },
+        {
+            "question": "What is the purpose of the activation function in a deep learning model?",
+            "expected_answer": "The activation function introduces non-linearity in the model, enabling it to learn and non-linear relationships between the inputs and outputs. Common examples of activation functions include ReLU, Sigmoid, and Tanh.",
+            "question_type": "technical",
+            "score": 0,
+            "feedback": "Its completely okay to say I dont know in an interview, but it would be great if you could show some effort to think about it or ask a clarifying question to demonstrate your problem-solving skills.",
+            "answer": "I dont know the"
+        },
+        {
+            "question": "What is the main difference between a Variational Autoencoder (VAE) and a Generative Adversarial Network (GAN) in terms of their underlying architecture and training objectives?",
+            "expected_answer": "A VAE consists of an encoder and a decoder, and its objective is to learn a probabilistic representation of the input data by maximizing the evidence lower bound (ELBO). A GAN, on the other hand, consists of a generator and a discriminator, and its objective is to learn a generative model that produces new samples that are indistinguishable from real samples.",
+            "question_type": "technical",
+            "score": 0,
+            "feedback": "Honesty is appreciated, but in a technical interview, its expected to have some knowledge of the concepts. It would be better to try to explain what you know, even if youre not sure, or ask for clarification on the question.",
+            "answer": "I dont know the answer"
+        },
+        {
+            "question": "One of your machine learning models deployed on AWS EC2 instance is experiencing high latency and is impacting the real-time predictions. How would you troubleshoot and resolve this issue?",
+            "expected_answer": "I would first check the instance type and ensure it has sufficient resources to handle the load. Then, I would investigate the models complexity to see if theres an opportunity to optimize it for faster predictions.",
+            "question_type": "scenario",
+            "score": 0,
+            "feedback": "Honesty is appreciated, but its essential to demonstrate problem-solving skills during an interview. Instead of saying I dont know, try to break down the problem, ask clarifying questions, and outline a general approach to troubleshoot the issue, even if youre not familiar with the specific technology.",
+            "answer": "still I dont know the answer"
+        },
+        {
+            "question": "During a critical deployment of a machine learning model on AWS EC2, you realize that the Route53 configuration is causing a latency issue. How would you handle this situation and ensure a timely resolution?",
+            "expected_answer": "I would first isolate the issue by checking the Route53 logs and then collaborate with the DevOps team to identify the root cause. Then, I would workarounds such as using an alternative DNS service or adjusting the instance type to mitigate the latency issue and ensure a timely resolution.",
+            "question_type": "scenario",
+            "score": 0,
+            "feedback": "Its essential to demonstrate a basic understanding of the technologies mentioned in the question. If youre unsure, ask for clarification or acknowledge your lack of knowledge and propose a general approach to troubleshooting.",
+            "answer": "even now I dont understand what you are saying"
+        },
+        {
+            "question": "Can you describe a situation where you had to explain complex AI models to a cross-functional team, and how you ensured everyone was aligned on the project goals?",
+            "expected_answer": "In my previous role, I had to present AI model results to a team of product managers and designers. I created a simple analogy to explain the models functionality, and ensured everyone understood by asking for feedback and incorporating their input into the presentation.",
+            "question_type": "behavioral",
+            "score": 0,
+            "feedback": "It seems like you didnt understand the question or didnt provide a meaningful response. Please try to provide a specific example from your experience and explain how you handled the situation.",
+            "answer": "but I will not explain you"
+        },
+        {
+            "question": "Can you describe a situation where you had to explain a complex AI model to a cross-functional team, and how you handled any disagreements or misconceptions that arose?",
+            "expected_answer": "I recall a project where I had to present a deep learning model to a team of developers, product managers, and designers. I prepared by creating visual aids and analogies to simplify the technical aspects, and encouraged open discussion to address any misconceptions early on.",
+            "question_type": "behavioral",
+            "score": 0,
+            "feedback": "Unfortunately, you didnt provide an answer to the question, which is a crucial part of the interview process. Please make sure to provide a specific example from your experience and walk the interviewer through your thought process.",
+            "answer": "I did not get situation"
+        }
+    ]
+}

@@ -22,17 +22,10 @@ The candidate is expected to answer in a conversational manner.
 **Intermediate Question:**  
 ```json
 {
-  "prev_question_marks": 7,
+   "expected_answer": "2 line answer to the question"
   "Question": "Why do we use pandas?"
 }
 ```
 
-**Last Question:**  
-```json
-{
-  "prev_question_marks": 8,
-  "Question": ""
-}
-```
 
 Proceed with the interview by following these rules strictly.

@@ -98,56 +98,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     let audioChunks = [];
     let audioStream;
     let myserial;
-
-    // Get device information from the button's data attributes
-    const deviceInfo = window.deviceInfo || {};
-
-    // Timer variables
     let timerInterval;
-    let timeLeft = 60;
-    const timerDisplay = document.getElementById('timer-display');
+    let timeLeft = 60;  // 60 seconds for recording
+    const timerDisplay = document.getElementById("timerDisplay");
+    //  show questio-title class  controlButton is not equal to "Start" or "Finish" 
 
-    function startTimer() {
-        if (!timerDisplay) {
-            console.warn('Timer display element not found');
-            return;
-        }
-
-        timeLeft = 60;
-        timerDisplay.style.display = 'block';
-        timerDisplay.textContent = timeLeft;
-        timerDisplay.classList.remove('warning');
-
-        timerInterval = setInterval(() => {
-            timeLeft--;
-            if (timerDisplay) {
-                timerDisplay.textContent = timeLeft;
-
-                if (timeLeft <= 10) {
-                    timerDisplay.classList.add('warning');
-                }
-            }
-
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval);
-                if (timerDisplay) {
-                    timerDisplay.style.display = 'none';
-                }
-                if (mediaRecorder && mediaRecorder.state === "recording") {
-                    mediaRecorder.stop();
-                    button.innerText = "Processing...";
-                }
-            }
-        }, 1000);
-    }
-
-    function stopTimer() {
-        clearInterval(timerInterval);
-        if (timerDisplay) {
-            timerDisplay.style.display = 'none';
-        }
-        timeLeft = 60;
-    }
 
     // List available audio devices for debugging
     navigator.mediaDevices.enumerateDevices()
@@ -176,7 +131,9 @@ document.addEventListener("DOMContentLoaded", async function () {
             button.innerText = "Record";
         } else if (button.innerText === "Record") {
             try {
-                const constraints = {
+                
+                // Request microphone access with specific constraints for better audio quality
+                audioStream = await navigator.mediaDevices.getUserMedia({
                     audio: {
                         echoCancellation: true,
                         noiseSuppression: true,
@@ -184,14 +141,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                         sampleRate: 44100,
                         channelCount: 1
                     }
-                };
-
-                // If a specific microphone is selected, use it
-                if (deviceInfo.microphone) {
-                    constraints.audio.deviceId = { exact: deviceInfo.microphone };
-                }
-
-                audioStream = await navigator.mediaDevices.getUserMedia(constraints);
+                });
                 mediaRecorder = new MediaRecorder(audioStream);
                 audioChunks = [];
 
@@ -200,37 +150,31 @@ document.addEventListener("DOMContentLoaded", async function () {
                 };
 
                 mediaRecorder.onstop = async () => {
-                    stopTimer();
                     const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
                     const arrayBuffer = await audioBlob.arrayBuffer();
                     const audioBuffer = await new AudioContext().decodeAudioData(arrayBuffer);
                     const wavBlob = encodeWAV(audioBuffer);
                     const wavUrl = URL.createObjectURL(wavBlob);
-
+                    clearInterval(timerInterval);
+                    timerDisplay.innerText = "";
                     audioPlayer.src = wavUrl;
                     const formData = new FormData();
+                    console.log("WAV Blob size:", wavBlob.size);
                     formData.append("audio", wavBlob, "recording.wav");
                     try {
                         const response = await fetch("/upload-audio/", {
                             method: "POST",
                             body: formData
+
                         });
 
                         const data = await response.json();
                         displayText.innerText = data.text;
+                        console.log(data.audio_url);
                         myserial = data.session_id;
+                        console.log("Session ID:", myserial);
                         audioPlayer.src = data.audio_url;
                         audioPlayer.load();
-
-                        // If a specific speaker is selected, use it
-                        if (deviceInfo.speaker && typeof audioPlayer.setSinkId === 'function') {
-                            try {
-                                await audioPlayer.setSinkId(deviceInfo.speaker);
-                            } catch (err) {
-                                console.error('Error setting audio output device:', err);
-                            }
-                        }
-
                         const playPromise = audioPlayer.play();
                         button.innerText = data.button_text;
                         if (playPromise !== undefined) {
@@ -238,12 +182,16 @@ document.addEventListener("DOMContentLoaded", async function () {
                                 .then(() => console.log("Audio playback started successfully"))
                                 .catch(error => {
                                     console.error("Playback prevented by browser:", error);
+                                    // Add a button for the user to click to start playback
                                     const playButton = document.createElement("button");
                                     playButton.innerText = "Play Response";
                                     playButton.onclick = () => audioPlayer.play();
                                     document.body.appendChild(playButton);
                                 });
                         }
+                        console.log("Response data:", data.audio_url);
+
+
                     } catch (error) {
                         console.error("Error uploading audio:", error);
                         displayText.innerText = "Error uploading audio.";
@@ -251,12 +199,27 @@ document.addEventListener("DOMContentLoaded", async function () {
                     }
 
                     audioStream.getTracks().forEach(track => track.stop());
-                };
 
+                };
                 mediaRecorder.start();
                 mediaRecorder.state = "recording";
+                timeLeft = 60;
+timerDisplay.innerText = `Recording: ${timeLeft}s`;
+
+timerInterval = setInterval(() => {
+    timeLeft--;
+    timerDisplay.innerText = `Recording: ${timeLeft}s`;
+    if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        if (mediaRecorder && mediaRecorder.state === "recording") {
+            mediaRecorder.stop();
+            button.innerText = "Processing...";
+        }
+    }
+}, 1000);
+                // Create media recorder with appropriate MIME type
+                // Use audio/webm;codecs=opus for better quality and compatibility
                 button.innerText = "Stop Record";
-                startTimer();
             } catch (err) {
                 console.error("Error starting recording:", err);
                 alert("Failed to start recording: " + err.message);
@@ -265,9 +228,15 @@ document.addEventListener("DOMContentLoaded", async function () {
         } else if (button.innerText === "Stop Record") {
             if (mediaRecorder && mediaRecorder.state === "recording") {
                 try {
+                    clearInterval(timerInterval);
+timerDisplay.innerText = "";
+                    // Set up onstop handler BEFORE calling stop
                     mediaRecorder.stop();
-                    stopTimer(); // Stop timer when recording is stopped manually
+
+
                     button.innerText = "Processing...";
+
+
                 } catch (err) {
                     console.error("Error stopping recording:", err);
                     button.innerText = "Record";
@@ -278,7 +247,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                 button.innerText = "Record";
                 displayText.style.color = "";
             }
-        } else if (button.innerText === "Finish") {
+        }
+        else if (button.innerText === "Finish") {
             console.log("Finishing process...");
             questionTitle.innerText = "You sucessfully completed the interview!";
             displayText.innerText = "Thank you for your time!";
@@ -289,6 +259,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 const response = await fetch("/result/", {
                     method: "POST",
                     body: formData
+
                 });
                 console.log("Response ", response.status);
                 const data = await response.json();
@@ -297,12 +268,13 @@ document.addEventListener("DOMContentLoaded", async function () {
                 } else {
                     console.error("Redirect URL not received.");
                 }
-            } catch (error) {
+            }
+            catch (error) {
                 console.error("Error fetching result:", error);
+
             }
         }
     });
-
     function encodeWAV(audioBuffer) {
         const numChannels = audioBuffer.numberOfChannels;
         const sampleRate = audioBuffer.sampleRate;

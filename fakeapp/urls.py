@@ -15,6 +15,7 @@ urlpatterns = [
     path("upload-audio/", views.upload_audio, name="uploadaudio"),
     path("result/", views.result, name="result"),
     path("show-result/", views.show_result, name="show_result"),
+    path("show-dashboard/", views.show_dashboard, name="show_dashboard"),
 ]
 
 if settings.DEBUG:  # Only serve media in development mode

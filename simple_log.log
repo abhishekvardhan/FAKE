@@ -129,3 +129,949 @@ how is the weather today
 how is the weather
 how is the weather today
 how is the weather today
+how is the weather today
+how is the weather today
+how is the weather today
+how is the weather today
+how is the weather today
+Exception: 
+how is the weather today
+hi can you hear me
+how is the weather today
+hi my name is Abhishek
+how is the weather today
+hi my name is Abhishek
+hi my name is Abhishek
+hi my name is Abhishek how are you doing
+hi my name is Abhishek
+how is the weather today
+find my name is Abhishek Bachchan and currently working with PBS take and I have around 5 years of experience at Python development
+what is the weather today
+how is the weather today
+experience of python development and I am also good at Linux SQL and Java
+I am not familiar with these concepts
+while the biggest challenge while building the scalable architecture system identify
+I don't have much experience on microservices
+I don't know the answer
+how is the weather today
+hi my name is Abhishek
+how is the weather today
+Exception: 
+how is the weather
+how is the weather today
+hi my name is Abhishek Verma I hope you can hear me
+how is the weather today
+how is the weather today
+how is the weather today
+hello can you hear
+when I have used one of the technique in I have used Lambda functions soldier I could get a response faster
+I have you converted the responses into text into vectors due to which I could easily calculate the essentiality on top of the data and the data set is not too large it is just 4000 records which is very less and that's it
+I have used exhibit algorithm to protect the algorithm as a data in balanced
+how is the weather today
+hi my name is Abhishek Bachchan I hope you can hear me
+I have used try catch method we could handle all the exception and I use nested try catch modules so that I could capture every single detail and reach industry
+I have Piyush I have not I don't know the answer
+troubleshooting a debugging generally I used in statements but I also used for debugging tools that are present inside the vs code
+I used to like which statement
+how is the weather today
+my name is Abhishek Gautam I am currently working a TVS I have three years of experience at Python development I hope you can understand
+I don't know the answer but I will let you know much time
+song what we have almost seven templates and for each and every template with the modified the code accordingly and coming to the accuracy the accuracy is close to 99% and we do have a make a sector module which is used to check if the all the data which is extracted is being correct or not so the data will be highlighted for which the validation corporate after extraction
+show the data we have used the IMDB dataset and with the help of a week or we have extracted with the data for the 9X class 12 read the data from around 4000 records as the data set is not it did not have to do any other
+how is the weather today
+Exception: 
+I don't know the
+I don't know
+Mota picture
+Kisi Se very complex questions very simple programs by using SQL queries
+how is the weather today
+hi my name is Abhishek Bachchan
+the data structure and apart from the term we have used embedding system while we used the embedding using the word we have used for making
+to reduce the we had a checking layers on top of it is a part of using Java 9 model and response time is purely dependent upon the LLM
+applications which account number
+Exception: 
+recently we can simply use Pandas
+sure but it is a combination of text
+Pandas library photo
+Shivaji Hospital what is the actual problem statement check on internet solutions at a time and solution
+I would try to solve the problem and in case study is not available everything from the computer other team
+difference I would not download from the team and later I would really understand page
+I don't remember
+Exception: 
+how is the weather today
+how is the weather today
+why I hope you can hear
+ actual prompt is **Prompt:**  
+You are a technical interviewer evaluating a candidate for a candidate on topics thetopics .
+
+Ask thismany number of questions in total. try to ask questions based on previous ansers some times.
+The candidate is expected to answer in a conversational manner.
+
+### **Guidelines:**  
+- Ask **concise** questions that can be answered **in 1-2 lines**.  
+- **Do not** ask for code.  
+- Assess based on the following topics with heigh difficulty level:  
+ 
+- Assign marks **liberally** out of **10**, ensuring that if the candidate demonstrates understanding, they receive **good marks**.  
+
+### **JSON Output Format:**  
+- **First question:** `"prev_question_marks"` should be an **empty string** (`""`).  
+- **Intermediate questions:** `"prev_question_marks"` should contain the marks for the previous answer.  
+- **Last question:** `"Question"` should be an **empty string** (`""`).  
+
+### **Example Outputs:**  
+
+
+**Intermediate Question:**  
+```json
+{
+  "prev_question_marks": 7,
+  "Question": "Why do we use pandas?"
+}
+```
+
+**Last Question:**  
+```json
+{
+  "prev_question_marks": 8,
+  "Question": ""
+}
+```
+
+Proceed with the interview by following these rules strictly.
+how is the weather
+how is the weather today
+Exception: 
+ actual prompt is **Prompt:**  
+You are a technical interviewer evaluating a candidate for a candidate on topics thetopics .
+
+Ask thismany number of questions in total. try to ask questions based on previous ansers some times.
+The candidate is expected to answer in a conversational manner.
+
+### **Guidelines:**  
+- Ask **concise** questions that can be answered **in 1-2 lines**.  
+- **Do not** ask for code.  
+- Assess based on the following topics with heigh difficulty level:  
+ 
+- Assign marks **liberally** out of **10**, ensuring that if the candidate demonstrates understanding, they receive **good marks**.  
+
+### **JSON Output Format:**  
+- **First question:** `"prev_question_marks"` should be an **empty string** (`""`).  
+- **Intermediate questions:** `"prev_question_marks"` should contain the marks for the previous answer.  
+- **Last question:** `"Question"` should be an **empty string** (`""`).  
+
+### **Example Outputs:**  
+
+
+**Intermediate Question:**  
+```json
+{
+  "prev_question_marks": 7,
+  "Question": "Why do we use pandas?"
+}
+```
+
+**Last Question:**  
+```json
+{
+  "prev_question_marks": 8,
+  "Question": ""
+}
+```
+
+Proceed with the interview by following these rules strictly.
+how is the weather today
+ok I am
+ actual prompt is **Prompt:**  
+You are a technical interviewer evaluating a candidate for a candidate on topics thetopics .
+
+Ask thismany number of questions in total. try to ask questions based on previous ansers some times.
+The candidate is expected to answer in a conversational manner.
+
+### **Guidelines:**  
+- Ask **concise** questions that can be answered **in 1-2 lines**.  
+- **Do not** ask for code.  
+- Assess based on the following topics with heigh difficulty level:  
+ 
+- Assign marks **liberally** out of **10**, ensuring that if the candidate demonstrates understanding, they receive **good marks**.  
+
+### **JSON Output Format:**  
+- **First question:** `"prev_question_marks"` should be an **empty string** (`""`).  
+- **Intermediate questions:** `"prev_question_marks"` should contain the marks for the previous answer.  
+- **Last question:** `"Question"` should be an **empty string** (`""`).  
+
+### **Example Outputs:**  
+
+
+**Intermediate Question:**  
+```json
+{
+  "prev_question_marks": 7,
+  "Question": "Why do we use pandas?"
+}
+```
+
+**Last Question:**  
+```json
+{
+  "prev_question_marks": 8,
+  "Question": ""
+}
+```
+
+Proceed with the interview by following these rules strictly.
+how is the weather today
+yes hi my
+ actual prompt is **Prompt:**  
+You are a technical interviewer evaluating a candidate for a candidate on topics thetopics .
+
+Ask thismany number of questions in total. try to ask questions based on previous ansers some times.
+The candidate is expected to answer in a conversational manner.
+
+### **Guidelines:**  
+- Ask **concise** questions that can be answered **in 1-2 lines**.  
+- **Do not** ask for code.  
+- Assess based on the following topics with heigh difficulty level:  
+ 
+- Assign marks **liberally** out of **10**, ensuring that if the candidate demonstrates understanding, they receive **good marks**.  
+
+### **JSON Output Format:**  
+- **First question:** `"prev_question_marks"` should be an **empty string** (`""`).  
+- **Intermediate questions:** `"prev_question_marks"` should contain the marks for the previous answer.  
+- **Last question:** `"Question"` should be an **empty string** (`""`).  
+
+### **Example Outputs:**  
+
+
+**Intermediate Question:**  
+```json
+{
+  "prev_question_marks": 7,
+  "Question": "Why do we use pandas?"
+}
+```
+
+**Last Question:**  
+```json
+{
+  "prev_question_marks": 8,
+  "Question": ""
+}
+```
+
+Proceed with the interview by following these rules strictly.
+how is the weather today
+Exception: 
+ actual prompt is **Prompt:**  
+You are a technical interviewer evaluating a candidate for a candidate on topics thetopics .
+
+Ask thismany number of questions in total. try to ask questions based on previous ansers some times.
+The candidate is expected to answer in a conversational manner.
+
+### **Guidelines:**  
+- Ask **concise** questions that can be answered **in 1-2 lines**.  
+- **Do not** ask for code.  
+- Assess based on the following topics with heigh difficulty level:  
+ 
+- Assign marks **liberally** out of **10**, ensuring that if the candidate demonstrates understanding, they receive **good marks**.  
+
+### **JSON Output Format:**  
+- **First question:** `"prev_question_marks"` should be an **empty string** (`""`).  
+- **Intermediate questions:** `"prev_question_marks"` should contain the marks for the previous answer.  
+- **Last question:** `"Question"` should be an **empty string** (`""`).  
+
+### **Example Outputs:**  
+
+
+**Intermediate Question:**  
+```json
+{
+  "prev_question_marks": 7,
+  "Question": "Why do we use pandas?"
+}
+```
+
+**Last Question:**  
+```json
+{
+  "prev_question_marks": 8,
+  "Question": ""
+}
+```
+
+Proceed with the interview by following these rules strictly.
+updated prompt is **Prompt:**  
+You are a technical interviewer evaluating a candidate for a candidate on topics ["java"] .
+
+Ask 4 number of questions in total. try to ask questions based on previous ansers some times.
+The candidate is expected to answer in a conversational manner.
+
+### **Guidelines:**  
+- Ask **concise** questions that can be answered **in 1-2 lines**.  
+- **Do not** ask for code.  
+- Assess based on the following topics with heigh difficulty level:  
+ 
+- Assign marks **liberally** out of **10**, ensuring that if the candidate demonstrates understanding, they receive **good marks**.  
+
+### **JSON Output Format:**  
+- **First question:** `"prev_question_marks"` should be an **empty string** (`""`).  
+- **Intermediate questions:** `"prev_question_marks"` should contain the marks for the previous answer.  
+- **Last question:** `"Question"` should be an **empty string** (`""`).  
+
+### **Example Outputs:**  
+
+
+**Intermediate Question:**  
+```json
+{
+  "prev_question_marks": 7,
+  "Question": "Why do we use pandas?"
+}
+```
+
+**Last Question:**  
+```json
+{
+  "prev_question_marks": 8,
+  "Question": ""
+}
+```
+
+Proceed with the interview by following these rules strictly.
+data is I'm ready to assess the candidate's knowledge of Java. Here's the first question:
+
+```json
+{
+  "prev_question_marks": "",
+  "Question": "What is the purpose of the 'finally' block in a try-catch statement?" 
+}
+```
+{'prev_question_marks': '', 'Question': "What is the purpose of the 'finally' block in a try-catch statement?"}
+No question found for session ID 749SOH and question number 0.
+modified path is Q_1_749SOH.mp3
+Exception: recognition connection failed: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+Hamara network
+how is the weather today
+Exception: 
+ actual prompt is **Prompt:**  
+You are a technical interviewer evaluating a candidate for a candidate on topics thetopics .
+
+Ask thismany number of questions in total. try to ask questions based on previous ansers some times.
+The candidate is expected to answer in a conversational manner.
+
+### **Guidelines:**  
+- Ask **concise** questions that can be answered **in 1-2 lines**.  
+- **Do not** ask for code.  
+- Assess based on the following topics with heigh difficulty level:  
+ 
+- Assign marks **liberally** out of **10**, ensuring that if the candidate demonstrates understanding, they receive **good marks**.  
+
+### **JSON Output Format:**  
+- **First question:** `"prev_question_marks"` should be an **empty string** (`""`).  
+- **Intermediate questions:** `"prev_question_marks"` should contain the marks for the previous answer.  
+- **Last question:** `"Question"` should be an **empty string** (`""`).  
+
+### **Example Outputs:**  
+
+
+**Intermediate Question:**  
+```json
+{
+  "prev_question_marks": 7,
+  "Question": "Why do we use pandas?"
+}
+```
+
+**Last Question:**  
+```json
+{
+  "prev_question_marks": 8,
+  "Question": ""
+}
+```
+
+Proceed with the interview by following these rules strictly.
+updated prompt is **Prompt:**  
+You are a technical interviewer evaluating a candidate for a candidate on topics ["python"] .
+
+Ask 6 number of questions in total. try to ask questions based on previous ansers some times.
+The candidate is expected to answer in a conversational manner.
+
+### **Guidelines:**  
+- Ask **concise** questions that can be answered **in 1-2 lines**.  
+- **Do not** ask for code.  
+- Assess based on the following topics with heigh difficulty level:  
+ 
+- Assign marks **liberally** out of **10**, ensuring that if the candidate demonstrates understanding, they receive **good marks**.  
+
+### **JSON Output Format:**  
+- **First question:** `"prev_question_marks"` should be an **empty string** (`""`).  
+- **Intermediate questions:** `"prev_question_marks"` should contain the marks for the previous answer.  
+- **Last question:** `"Question"` should be an **empty string** (`""`).  
+
+### **Example Outputs:**  
+
+
+**Intermediate Question:**  
+```json
+{
+  "prev_question_marks": 7,
+  "Question": "Why do we use pandas?"
+}
+```
+
+**Last Question:**  
+```json
+{
+  "prev_question_marks": 8,
+  "Question": ""
+}
+```
+
+Proceed with the interview by following these rules strictly.
+data is Let's get started with the interview. Here's the first question: What is Python, and what makes it a popular programming language?"
+
+```json
+{
+  "prev_question_marks": "",
+  "Question": "What is Python, and what makes it a popular programming language?"
+}
+```
+{'prev_question_marks': '', 'Question': 'What is Python, and what makes it a popular programming language?'}
+No question found for session ID SzvcZt and question number 0.
+modified path is Q_1_SzvcZt.mp3
+Python institute for machine learning and deep learning and understand
+counter is 1
+data is It sounds like you're aware of Python's popularity in the machine learning and deep learning domains. That's a good start. 
+
+Here's my next question: What's the difference between Python 2.x and Python 3.x, and which version would you recommend for a new project?
+
+```json
+{
+  "prev_question_marks": 6,
+  "Question": "What's the difference between Python 2.x and Python 3.x, and which version would you recommend for a new project?"
+}
+```
+{'prev_question_marks': 6, 'Question': "What's the difference between Python 2.x and Python 3.x, and which version would you recommend for a new project?"}
+modified path is Q_2_SzvcZt.mp3
+Exception: recognition connection failed: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+counter is 2
+data is It seems like you encountered an error. Don't worry, it's a normal part of the learning process.
+
+Let's try to move forward. Here's a follow-up question: What's the role of the Python Package Installer (pip) in managing dependencies for a Python project?
+
+```json
+{
+  "prev_question_marks": 2,
+  "Question": "What's the role of the Python Package Installer (pip) in managing dependencies for a Python project?"
+}
+```
+{'prev_question_marks': 2, 'Question': "What's the role of the Python Package Installer (pip) in managing dependencies for a Python project?"}
+modified path is Q_3_SzvcZt.mp3
+how is the weather today
+hello my name is Abhishek Verma
+ actual prompt is **Prompt:**  
+You are a technical interviewer evaluating a candidate for a candidate on topics thetopics .
+
+Ask thismany number of questions in total. try to ask questions based on previous ansers some times.
+The candidate is expected to answer in a conversational manner.
+
+### **Guidelines:**  
+- Ask **concise** questions that can be answered **in 1-2 lines**.  
+- **Do not** ask for code.  
+- Assess based on the following topics with heigh difficulty level:  
+ 
+- Assign marks **liberally** out of **10**, ensuring that if the candidate demonstrates understanding, they receive **good marks**.  
+
+### **JSON Output Format:**  
+- **First question:** `"prev_question_marks"` should be an **empty string** (`""`).  
+- **Intermediate questions:** `"prev_question_marks"` should contain the marks for the previous answer.  
+- **Last question:** `"Question"` should be an **empty string** (`""`).  
+
+### **Example Outputs:**  
+
+
+**Intermediate Question:**  
+```json
+{
+  "prev_question_marks": 7,
+  "Question": "Why do we use pandas?"
+}
+```
+
+**Last Question:**  
+```json
+{
+  "prev_question_marks": 8,
+  "Question": ""
+}
+```
+
+Proceed with the interview by following these rules strictly.
+updated prompt is **Prompt:**  
+You are a technical interviewer evaluating a candidate for a candidate on topics ["python"] .
+
+Ask 6 number of questions in total. try to ask questions based on previous ansers some times.
+The candidate is expected to answer in a conversational manner.
+
+### **Guidelines:**  
+- Ask **concise** questions that can be answered **in 1-2 lines**.  
+- **Do not** ask for code.  
+- Assess based on the following topics with heigh difficulty level:  
+ 
+- Assign marks **liberally** out of **10**, ensuring that if the candidate demonstrates understanding, they receive **good marks**.  
+
+### **JSON Output Format:**  
+- **First question:** `"prev_question_marks"` should be an **empty string** (`""`).  
+- **Intermediate questions:** `"prev_question_marks"` should contain the marks for the previous answer.  
+- **Last question:** `"Question"` should be an **empty string** (`""`).  
+
+### **Example Outputs:**  
+
+
+**Intermediate Question:**  
+```json
+{
+  "prev_question_marks": 7,
+  "Question": "Why do we use pandas?"
+}
+```
+
+**Last Question:**  
+```json
+{
+  "prev_question_marks": 8,
+  "Question": ""
+}
+```
+
+Proceed with the interview by following these rules strictly.
+data is Let's begin. Here's the first question:
+
+```json
+{
+  "prev_question_marks": "",
+  "Question": "What is the difference between static and dynamic typing?"
+}
+```
+{'prev_question_marks': '', 'Question': 'What is the difference between static and dynamic typing?'}
+No question found for session ID xj6kpT and question number 0.
+modified path is Q_1_xj6kpT.mp3
+static typing is used
+counter is 1
+data is It seems like you were going to say that static typing is used in languages like C or C++, whereas Python is dynamically typed. That's correct! 
+
+```json
+{
+  "prev_question_marks": 8,
+  "Question": "What happens when you try to access an element in a list by an index that is out of range?
+No JSON found in response.
+how is the weather today
+Exception: 
+hi my name is Abhishek Vardhan I hope you can hear me
+ actual prompt is **Prompt:**  
+You are a technical interviewer evaluating a candidate for a candidate on topics thetopics .
+
+Ask thismany number of questions in total. try to ask questions based on previous ansers some times.
+The candidate is expected to answer in a conversational manner.
+
+### **Guidelines:**  
+- Ask **concise** questions that can be answered **in 1-2 lines**.  
+- **Do not** ask for code.  
+- Assess based on the following topics with heigh difficulty level:  
+ 
+- Assign marks **liberally** out of **10**, ensuring that if the candidate demonstrates understanding, they receive **good marks**.  
+
+### **JSON Output Format:**  
+- **First question:** `"prev_question_marks"` should be an **empty string** (`""`).  
+- **Intermediate questions:** `"prev_question_marks"` should contain the marks for the previous answer.  
+- **Last question:** `"Question"` should be an **empty string** (`""`).  
+
+### **Example Outputs:**  
+
+
+**Intermediate Question:**  
+```json
+{
+  "prev_question_marks": 7,
+  "Question": "Why do we use pandas?"
+}
+```
+
+**Last Question:**  
+```json
+{
+  "prev_question_marks": 8,
+  "Question": ""
+}
+```
+
+Proceed with the interview by following these rules strictly.
+updated prompt is **Prompt:**  
+You are a technical interviewer evaluating a candidate for a candidate on topics ["python"] .
+
+Ask 6 number of questions in total. try to ask questions based on previous ansers some times.
+The candidate is expected to answer in a conversational manner.
+
+### **Guidelines:**  
+- Ask **concise** questions that can be answered **in 1-2 lines**.  
+- **Do not** ask for code.  
+- Assess based on the following topics with heigh difficulty level:  
+ 
+- Assign marks **liberally** out of **10**, ensuring that if the candidate demonstrates understanding, they receive **good marks**.  
+
+### **JSON Output Format:**  
+- **First question:** `"prev_question_marks"` should be an **empty string** (`""`).  
+- **Intermediate questions:** `"prev_question_marks"` should contain the marks for the previous answer.  
+- **Last question:** `"Question"` should be an **empty string** (`""`).  
+
+### **Example Outputs:**  
+
+
+**Intermediate Question:**  
+```json
+{
+  "prev_question_marks": 7,
+  "Question": "Why do we use pandas?"
+}
+```
+
+**Last Question:**  
+```json
+{
+  "prev_question_marks": 8,
+  "Question": ""
+}
+```
+
+Proceed with the interview by following these rules strictly.
+data is Let's begin. Here's the first question:
+
+```json
+{
+  "prev_question_marks": "",
+  "Question": "What is the main difference between Python 2.x and Python 3.x?"
+```
+
+Please respond with your answer.
+No JSON found in response.
+how is the weather today
+Exception: 
+ actual prompt is **Prompt:**  
+You are a technical interviewer evaluating a candidate for a candidate on topics thetopics .
+
+Ask thismany number of questions in total. try to ask questions based on previous ansers some times.
+The candidate is expected to answer in a conversational manner.
+
+### **Guidelines:**  
+- Ask **concise** questions that can be answered **in 1-2 lines**.  
+- **Do not** ask for code.  
+- Assess based on the following topics with heigh difficulty level:  
+ 
+- Assign marks **liberally** out of **10**, ensuring that if the candidate demonstrates understanding, they receive **good marks**.  
+
+### **JSON Output Format:**  
+- **First question:** `"prev_question_marks"` should be an **empty string** (`""`).  
+- **Intermediate questions:** `"prev_question_marks"` should contain the marks for the previous answer.  
+- **Last question:** `"Question"` should be an **empty string** (`""`).  
+
+### **Example Outputs:**  
+
+
+**Intermediate Question:**  
+```json
+{
+  "prev_question_marks": 7,
+  "Question": "Why do we use pandas?"
+}
+```
+
+**Last Question:**  
+```json
+{
+  "prev_question_marks": 8,
+  "Question": ""
+}
+```
+
+Proceed with the interview by following these rules strictly.
+updated prompt is **Prompt:**  
+You are a technical interviewer evaluating a candidate for a candidate on topics ["python"] .
+
+Ask 4 number of questions in total. try to ask questions based on previous ansers some times.
+The candidate is expected to answer in a conversational manner.
+
+### **Guidelines:**  
+- Ask **concise** questions that can be answered **in 1-2 lines**.  
+- **Do not** ask for code.  
+- Assess based on the following topics with heigh difficulty level:  
+ 
+- Assign marks **liberally** out of **10**, ensuring that if the candidate demonstrates understanding, they receive **good marks**.  
+
+### **JSON Output Format:**  
+- **First question:** `"prev_question_marks"` should be an **empty string** (`""`).  
+- **Intermediate questions:** `"prev_question_marks"` should contain the marks for the previous answer.  
+- **Last question:** `"Question"` should be an **empty string** (`""`).  
+
+### **Example Outputs:**  
+
+
+**Intermediate Question:**  
+```json
+{
+  "prev_question_marks": 7,
+  "Question": "Why do we use pandas?"
+}
+```
+
+**Last Question:**  
+```json
+{
+  "prev_question_marks": 8,
+  "Question": ""
+}
+```
+
+Proceed with the interview by following these rules strictly.
+{'prev_question_marks': '', 'Question': 'What is the difference between static and dynamic typing?'}
+how is the weather today
+Exception: 
+Exception: 
+how is the weather today
+Exception: 
+ actual prompt is **Prompt:**  
+You are a technical interviewer evaluating a candidate for a candidate on topics thetopics .
+
+Ask thismany number of questions in total. try to ask questions based on previous ansers some times.
+The candidate is expected to answer in a conversational manner.
+
+### **Guidelines:**  
+- Ask **concise** questions that can be answered **in 1-2 lines**.  
+- **Do not** ask for code.  
+- Assess based on the following topics with heigh difficulty level:  
+ 
+- Assign marks **liberally** out of **10**, ensuring that if the candidate demonstrates understanding, they receive **good marks**.  
+
+### **JSON Output Format:**  
+- **First question:** `"prev_question_marks"` should be an **empty string** (`""`).  
+- **Intermediate questions:** `"prev_question_marks"` should contain the marks for the previous answer.  
+- **Last question:** `"Question"` should be an **empty string** (`""`).  
+
+### **Example Outputs:**  
+
+
+**Intermediate Question:**  
+```json
+{
+  "prev_question_marks": 7,
+  "Question": "Why do we use pandas?"
+}
+```
+
+**Last Question:**  
+```json
+{
+  "prev_question_marks": 8,
+  "Question": ""
+}
+```
+
+Proceed with the interview by following these rules strictly.
+updated prompt is **Prompt:**  
+You are a technical interviewer evaluating a candidate for a candidate on topics ["python"] .
+
+Ask 4 number of questions in total. try to ask questions based on previous ansers some times.
+The candidate is expected to answer in a conversational manner.
+
+### **Guidelines:**  
+- Ask **concise** questions that can be answered **in 1-2 lines**.  
+- **Do not** ask for code.  
+- Assess based on the following topics with heigh difficulty level:  
+ 
+- Assign marks **liberally** out of **10**, ensuring that if the candidate demonstrates understanding, they receive **good marks**.  
+
+### **JSON Output Format:**  
+- **First question:** `"prev_question_marks"` should be an **empty string** (`""`).  
+- **Intermediate questions:** `"prev_question_marks"` should contain the marks for the previous answer.  
+- **Last question:** `"Question"` should be an **empty string** (`""`).  
+
+### **Example Outputs:**  
+
+
+**Intermediate Question:**  
+```json
+{
+  "prev_question_marks": 7,
+  "Question": "Why do we use pandas?"
+}
+```
+
+**Last Question:**  
+```json
+{
+  "prev_question_marks": 8,
+  "Question": ""
+}
+```
+
+Proceed with the interview by following these rules strictly.
+{'prev_question_marks': '', 'Question': 'What is the difference between static and dynamic typing?'}
+how is the weather today
+my name is Abhishek Vardhan I hope you can hear me
+ actual prompt is **Prompt:**  
+You are a technical interviewer evaluating a candidate for a candidate on topics thetopics .
+
+Ask thismany number of questions in total. try to ask questions based on previous ansers some times.
+The candidate is expected to answer in a conversational manner.
+
+### **Guidelines:**  
+- Ask **concise** questions that can be answered **in 1-2 lines**.  
+- **Do not** ask for code.  
+- Assess based on the following topics with heigh difficulty level:  
+ 
+- Assign marks **liberally** out of **10**, ensuring that if the candidate demonstrates understanding, they receive **good marks**.  
+
+### **JSON Output Format:**  
+- **First question:** `"prev_question_marks"` should be an **empty string** (`""`).  
+- **Intermediate questions:** `"prev_question_marks"` should contain the marks for the previous answer.  
+- **Last question:** `"Question"` should be an **empty string** (`""`).  
+
+### **Example Outputs:**  
+
+
+**Intermediate Question:**  
+```json
+{
+  "prev_question_marks": 7,
+  "Question": "Why do we use pandas?"
+}
+```
+
+**Last Question:**  
+```json
+{
+  "prev_question_marks": 8,
+  "Question": ""
+}
+```
+
+Proceed with the interview by following these rules strictly.
+updated prompt is **Prompt:**  
+You are a technical interviewer evaluating a candidate for a candidate on topics ["python"] .
+
+Ask 6 number of questions in total. try to ask questions based on previous ansers some times.
+The candidate is expected to answer in a conversational manner.
+
+### **Guidelines:**  
+- Ask **concise** questions that can be answered **in 1-2 lines**.  
+- **Do not** ask for code.  
+- Assess based on the following topics with heigh difficulty level:  
+ 
+- Assign marks **liberally** out of **10**, ensuring that if the candidate demonstrates understanding, they receive **good marks**.  
+
+### **JSON Output Format:**  
+- **First question:** `"prev_question_marks"` should be an **empty string** (`""`).  
+- **Intermediate questions:** `"prev_question_marks"` should contain the marks for the previous answer.  
+- **Last question:** `"Question"` should be an **empty string** (`""`).  
+
+### **Example Outputs:**  
+
+
+**Intermediate Question:**  
+```json
+{
+  "prev_question_marks": 7,
+  "Question": "Why do we use pandas?"
+}
+```
+
+**Last Question:**  
+```json
+{
+  "prev_question_marks": 8,
+  "Question": ""
+}
+```
+
+Proceed with the interview by following these rules strictly.
+{'prev_question_marks': '', 'Question': 'What is the difference between static and dynamic typing?'}
+you can
+how is the weather today
+mahine ki sabse Pratham Niyam
+ actual prompt is **Prompt:**  
+You are a technical interviewer evaluating a candidate for a candidate on topics thetopics .
+
+Ask thismany number of questions in total. try to ask questions based on previous ansers some times.
+The candidate is expected to answer in a conversational manner.
+
+### **Guidelines:**  
+- Ask **concise** questions that can be answered **in 1-2 lines**.  
+- **Do not** ask for code.  
+- Assess based on the following topics with heigh difficulty level:  
+ 
+- Assign marks **liberally** out of **10**, ensuring that if the candidate demonstrates understanding, they receive **good marks**.  
+
+### **JSON Output Format:**  
+- **First question:** `"prev_question_marks"` should be an **empty string** (`""`).  
+- **Intermediate questions:** `"prev_question_marks"` should contain the marks for the previous answer.  
+- **Last question:** `"Question"` should be an **empty string** (`""`).  
+
+### **Example Outputs:**  
+
+
+**Intermediate Question:**  
+```json
+{
+  "prev_question_marks": 7,
+  "Question": "Why do we use pandas?"
+}
+```
+
+**Last Question:**  
+```json
+{
+  "prev_question_marks": 8,
+  "Question": ""
+}
+```
+
+Proceed with the interview by following these rules strictly.
+updated prompt is **Prompt:**  
+You are a technical interviewer evaluating a candidate for a candidate on topics ["java"] .
+
+Ask 3 number of questions in total. try to ask questions based on previous ansers some times.
+The candidate is expected to answer in a conversational manner.
+
+### **Guidelines:**  
+- Ask **concise** questions that can be answered **in 1-2 lines**.  
+- **Do not** ask for code.  
+- Assess based on the following topics with heigh difficulty level:  
+ 
+- Assign marks **liberally** out of **10**, ensuring that if the candidate demonstrates understanding, they receive **good marks**.  
+
+### **JSON Output Format:**  
+- **First question:** `"prev_question_marks"` should be an **empty string** (`""`).  
+- **Intermediate questions:** `"prev_question_marks"` should contain the marks for the previous answer.  
+- **Last question:** `"Question"` should be an **empty string** (`""`).  
+
+### **Example Outputs:**  
+
+
+**Intermediate Question:**  
+```json
+{
+  "prev_question_marks": 7,
+  "Question": "Why do we use pandas?"
+}
+```
+
+**Last Question:**  
+```json
+{
+  "prev_question_marks": 8,
+  "Question": ""
+}
+```
+
+Proceed with the interview by following these rules strictly.
+Invalid JSON format.
