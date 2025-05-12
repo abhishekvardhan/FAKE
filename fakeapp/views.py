@@ -1,7 +1,6 @@
 import string
 import os
 from django.shortcuts import render
-from gtts import gTTS
 from django.conf import settings
 
 from django.views.decorators.csrf import csrf_exempt 
@@ -286,13 +285,11 @@ def result(request):
     if request.session.get("interview_type") == "resume_based":
         state= fapp_resume_processor.perform_assessment(state)
         list_of_questions=request.session["state"]["list_of_questions"]
-        with open('listofquestions.json', 'w', encoding="utf-8") as f:
-            f.write(str(list_of_questions))
+        
         
         assessment = state.get("assessment", {})
         assessment["Name"] =request.session["Name"] 
-        with open('assesment.json', 'w', encoding="utf-8") as f:
-            f.write(str(assessment))
+        
         # send assesment json to html as sample data. also save list of questions in excel as send to html as excelLink 
         excel_path = fapp_processor.generate_excel_report(list_of_questions, assessment, serial)
         

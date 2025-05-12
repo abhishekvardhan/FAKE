@@ -701,6 +701,7 @@ Job domain: {domain}
 If there are previous responses, adapt this question to build upon those responses.
 
  Focus on evaluating key soft skills such as teamwork, ownership, communication, problem-solving, adaptability, conflict resolution, leadership potential, and handling feedback. 
+ prove bit simple questions.
  try to ask questions that are more related to the job description and domain.
  the question should be 1-2 lines long. where the expected answer should be 2-3 lines.
 Output as a single JSON object with 'question' and 'expected_answer' fields.
@@ -820,6 +821,7 @@ Candidate's experience level: {experience_match}
 If there are previous responses, adapt this question to build upon those responses.
 If the candidate showed strength in a specific area, you can ask more challenging questions in that area. 
 If they showed weakness, ask about a different area.
+prove bit simple questions.
 The questions should be 1-2 lines long. where the expected answer should be 2-3 lines.
 
 Output as a single JSON object with 'question' and 'expected_answer' fields.
@@ -1173,7 +1175,7 @@ def build_graph():
 
     workflow.add_node("ask_question", ask_question)
     workflow.add_node("perform_assessment", perform_assessment)
-    workflow.add_node("process_response", process_response)
+    # workflow.add_node("process_response", process_response)
     
     # Create a router node to determine next step
     workflow.add_node("route_next_step", route_next_step)
@@ -1281,7 +1283,7 @@ def evaluate_response(question_text, response: str) -> dict:
  
 
         Use this EXACT format (including quotes and braces):
-        
+        score liberally , as it is a subjective assessment
         IMPORTANT: Pay careful attention to JSON formatting. Ensure you include a comma between fields.
         
         Return ONLY a valid JSON object with exactly these fields:
@@ -1312,7 +1314,7 @@ def evaluate_response(question_text, response: str) -> dict:
             except Exception as e:
                 print(response_text)
                 print(f"Error fixing JSON: {e}")
-                evaluation = robust_json_parser(response_text)
+                
         
         # If parsing completely failed, use default evaluation
         if not evaluation:
