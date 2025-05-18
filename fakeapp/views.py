@@ -230,8 +230,8 @@ def upload_audio(request):
             if state.get("current_question_type") != "perform_assessment":
                 print("Performing resume-based assessment")
                 print(state["responses"])
-                question, audio_file, prev_ans, marks, feedback = fapp_processor.audio_resume_processor(save_path, session_id, counter,MAX_CYCLES, state)
-            
+                question, audio_file, prev_ans, marks, feedback, state = fapp_processor.audio_resume_processor(save_path, session_id, counter, MAX_CYCLES, state)
+
             request.session["state"] = state
             request.session.save()  # Save the session after modification
         if counter > 0: 
@@ -278,44 +278,84 @@ def upload_audio(request):
     
 @csrf_exempt
 def result(request):
+    try:
+        # Ensure we have a valid session
+        if not request.session:
+            print("No session object found")
+            return JsonResponse({'error': 'No session found'}, status=400)
+            
+        serial = request.session.get("session_id")
+        if not serial:
+            print("No session ID found in session")
+            return JsonResponse({'error': 'No session ID found'}, status=400)
+            
+        print("Processing result for session:", serial)
+        state = request.session.get("state", {})
 
-    serial=request.POST.get("serial")
-    print("serial is "+serial)
-    state = request.session.get("state", {})
-    if request.session.get("interview_type") == "resume_based":
-        state= fapp_resume_processor.perform_assessment(state)
-        list_of_questions=request.session["state"]["list_of_questions"]
-        
-        
-        assessment = state.get("assessment", {})
-        assessment["Name"] =request.session["Name"] 
-        
-        # send assesment json to html as sample data. also save list of questions in excel as send to html as excelLink 
-        excel_path = fapp_processor.generate_excel_report(list_of_questions, assessment, serial)
-        
-        # Format data for the dashboard
-        dashboard_data = fapp_processor.format_dashboard_data(assessment, excel_path)
-        request.session['dashboard_data'] = dashboard_data
-        return JsonResponse({'redirect_url': '/show-dashboard/'})
-    else:
-        
-        df_results=fapp_processor.get_results_from_db(serial)
-        request.session['result_data'] = df_results
-        print("Result data brfore:", df_results)
-        return JsonResponse({'redirect_url': '/show-result/'})
+        if request.session.get("interview_type") == "resume_based":
+            print("Starting resume_based assessment")
+            try:
+                state = fapp_resume_processor.perform_assessment(state)
+                print("Assessment performed:", state.get("assessment", {}))
+
+                list_of_questions = request.session["state"].get("list_of_questions", [])
+                print("Questions:", list_of_questions)
+
+                assessment = state.get("assessment", {})
+                assessment["Name"] = request.session.get("Name", "Unknown")
+
+                excel_path = fapp_processor.generate_excel_report(list_of_questions, assessment, serial)
+                print("Excel path:", excel_path)
+
+                dashboard_data = fapp_processor.format_dashboard_data(assessment, excel_path)
+                print("Dashboard data prepared")
+
+                request.session['dashboard_data'] = dashboard_data
+                request.session.modified = True
+                request.session.save()
+
+                return JsonResponse({'redirect_url': '/show-dashboard/'})
+            except Exception as e:
+                print(f"Error in resume-based assessment: {str(e)}")
+                return JsonResponse({'error': 'Error processing resume assessment'}, status=500)
+        else:
+            try:
+                df_results = fapp_processor.get_results_from_db(serial)
+                
+                # Store data in session and ensure it's saved
+                request.session['result_data'] = df_results
+                request.session.modified = True
+                request.session.save()
+                
+                print("Result data before:", df_results)
+                return JsonResponse({'redirect_url': '/show-result/'})
+            except Exception as e:
+                print(f"Error getting results from DB: {str(e)}")
+                return JsonResponse({'error': 'Error retrieving results'}, status=500)
+    except Exception as e:
+        print(f"Error in result view: {str(e)}")
+        return JsonResponse({'error': str(e)}, status=500)
 
 def show_result(request):
-    
-    result_data = request.session.get('result_data', [])
-    print("Result data:", result_data)
-    request.session.flush()
-    return render(request, 'results.html', {"table_data": result_data})
+    try:
+        result_data = request.session.get('result_data', [])
+        print("Result data:", result_data)
+        
+        # Only flush the session after we've retrieved the data
+        if result_data:
+            response = render(request, 'results.html', {"table_data": result_data})
+            request.session.flush()
+            return response
+        else:
+            return render(request, 'results.html', {"table_data": []})
+    except Exception as e:
+        print(f"Error in show_result view: {str(e)}")
+        return render(request, 'results.html', {"table_data": [], "error": str(e)})
 
 def show_dashboard(request):
     dashboard_data = request.session.get('dashboard_data', {})
     if 'excelLink' in dashboard_data:
         dashboard_data['excelLink'] = request.build_absolute_uri(dashboard_data['excelLink'])
-    
-    print(dashboard_data)
+    print("Dashboard data in show dashboard:", dashboard_data)
     request.session.flush()  # Clear the session after getting the data
     return render(request, 'dashboard.html', {"table_data": json.dumps(dashboard_data)})

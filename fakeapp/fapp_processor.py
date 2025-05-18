@@ -19,7 +19,7 @@ from fakeapp.models import InterviewResponse,IntervieweeDetails, IntervieweeSkil
 from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.chat_history import InMemoryChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
-os.environ["GROQ_API_KEY"]=" "
+os.environ["GROQ_API_KEY"]=""
 
 import logging
 logger = logging.getLogger('simple_logger')
@@ -267,7 +267,7 @@ def audio_resume_processor(INPUT_FILENAME,serial,counter,max_questions,state):
     print("list of questions is ",state["list_of_questions"])
     
 
-    return question, file_name,result, score, feedback," ",state
+    return question, file_name,result, score, feedback,state
 
 
 def audio_to_text(INPUT_FILENAME):
@@ -369,6 +369,7 @@ def generate_excel_report(questions, assessment, serial):
             ]
         }
         pd.DataFrame(summary_data).to_excel(writer, sheet_name='Summary', index=False)
+    print("Excel file created at:", filepath)
     
     # Return the relative URL path to the Excel file
     return f"/media/reports/{filename}"
@@ -414,6 +415,7 @@ def format_dashboard_data(assessment, excel_path):
         "improvements": assessment.get('improvements', default_improvements),
         "excelLink": excel_path
     }
+    print("dashboard data is ",dashboard_data)
     
     return dashboard_data
 

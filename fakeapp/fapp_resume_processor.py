@@ -13,7 +13,7 @@ from langchain_groq import ChatGroq
 from langchain_core.caches import BaseCache
 import pandas as pd
 ChatGroq.model_rebuild()
-os.environ["GROQ_API_KEY"] =" "
+os.environ["GROQ_API_KEY"] =""
 # Define State Types
 class ResumeData(TypedDict):
     skills: Dict[str, str]  # skill -> proficiency level

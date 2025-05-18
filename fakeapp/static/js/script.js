@@ -283,12 +283,13 @@ document.addEventListener("DOMContentLoaded", async function () {
             questionTitle.innerText = "You sucessfully completed the interview!";
             displayText.innerText = "Thank you for your time!";
             try {
-                const formData = new FormData();
-                formData.append("serial", myserial);
-                console.log("Session ID sent:", formData.get("serial"));
                 const response = await fetch("/result/", {
-                    method: "POST",
-                    body: formData
+                    method: "GET",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'same-origin'  // This ensures cookies are sent
                 });
                 console.log("Response ", response.status);
                 const data = await response.json();
@@ -299,6 +300,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 }
             } catch (error) {
                 console.error("Error fetching result:", error);
+                displayText.innerText = "Error processing results. Please try again.";
             }
         }
     });
