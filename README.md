@@ -105,7 +105,7 @@ A comprehensive dashboard is generated post-interview:
 
 
 4. **Visit Web Interface**
-   Open your browser at `http://<your-ec2-ip>:8000`
+   Open your browser at `[http://<your-ec2-ip>:8000](https://fake-app.site/)`
 
 ---
 
