@@ -92,6 +92,6 @@ A comprehensive dashboard is generated post-interview:
 
    
 📬 Contact
-For questions or support, reach out to: [your-email@example.com]
+For questions or support, reach out to: [abhivsp10@gmail.com]
 ---
 
