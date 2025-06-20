@@ -1,8 +1,5 @@
 
-
----
-
-# 🧠 AI-Powered Interview System
+  # 🧠 F.A.K.E (Friendly Ai for Knowledge Evaluation)
 
 An intelligent, end-to-end interview platform that conducts personalized interviews using AI. Built with **LangGraph**, **LLaMA-3 via GROQ API**, and **Whisper-v3**, the app can assess candidates either through a **resume-based multi-round interview** or a **skill-driven question set**, all integrated into a clean dashboard deployed with **Django**, **PostgreSQL**, and **Docker** on **AWS EC2**.
 
@@ -30,6 +27,10 @@ Upon login, the user is presented with two flows:
   * Candidate responds via voice (transcribed with Whisper-v3).
   * Each response is scored in real time.
   * Results visualized in the final dashboard.
+
+---
+
+  ![image](https://github.com/user-attachments/assets/ca729399-6ee3-4269-8088-6adb6ccd069b)
 
 ---
 
@@ -67,6 +68,14 @@ Upon login, the user is presented with two flows:
 
 ---
 
+![image](https://github.com/user-attachments/assets/cc35b26f-12e3-4890-951d-e0147b18eb14)
+
+![image](https://github.com/user-attachments/assets/84941080-15a8-4d9a-b621-98408a8cd03b)
+
+![fakegraph](https://github.com/user-attachments/assets/e3d63dad-e9d5-4918-989a-cc33d4a7b5bf)
+
+---
+
 ## 🧰 Tech Stack
 
 | Component         | Technology           |
@@ -87,8 +96,6 @@ A comprehensive dashboard is generated post-interview:
 * Round-wise Performance
 * Skill Match Visualization
 * Recommendations & Final Score
-
-
 
    
 📬 Contact
