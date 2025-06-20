@@ -1,4 +1,4 @@
-Great! Based on the second diagram you've uploaded (which appears to refine or clarify the logic of the resume-based interview flow), here's an **updated and enhanced `README.md`** that integrates this logic more clearly.
+
 
 ---
 
@@ -72,7 +72,6 @@ Upon login, the user is presented with two flows:
 | Audio Interface   | Whisper-v3           |
 | Backend Framework | Django (Python)      |
 | Database          | PostgreSQL           |
-| Containerization  | Docker               |
 | Deployment        | AWS EC2              |
 
 ---
@@ -85,30 +84,8 @@ A comprehensive dashboard is generated post-interview:
 * Skill Match Visualization
 * Recommendations & Final Score
 
----
 
-## ⚙️ Project Structure
 
-```bash
-├── backend/
-│   ├── django_app/
-│   ├── api/
-│   └── dashboard/
-├── langgraph_engine/
-│   ├── resume_parser.py
-│   ├── interview_flow.py
-│   └── scoring.py
-├── whisper_service/
-│   └── transcriber.py
-├── static/
-│   └── frontend_assets/
-├── docker/
-│   └── Dockerfile
-├── README.md
-└── requirements.txt
-```
-
----
 
 ## 🚀 Getting Started
 
@@ -125,11 +102,7 @@ A comprehensive dashboard is generated post-interview:
    pip install -r requirements.txt
    ```
 
-3. **Run with Docker**
 
-   ```bash
-   docker-compose up --build
-   ```
 
 4. **Visit Web Interface**
    Open your browser at `http://<your-ec2-ip>:8000`
