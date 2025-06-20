@@ -89,24 +89,8 @@ A comprehensive dashboard is generated post-interview:
 
 ## 🚀 Getting Started
 
-1. **Clone the Repo**
-
-   ```bash
-   git clone https://github.com/your-repo/ai-interview-app.git
-   cd ai-interview-app
-   ```
-
-2. **Install Dependencies**
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-
-
-4. **Visit Web Interface**
-   Open your browser at `[http://<your-ec2-ip>:8000](https://fake-app.site/)`
+ **Visit Web Interface**
+   Open your browser at `https://fake-app.site/`
 
 ---
 
-Let me know if you want this turned into a downloadable `.md` file or the code for the login/interview selection frontend.
