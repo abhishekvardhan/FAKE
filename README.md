@@ -8,6 +8,10 @@ An intelligent, end-to-end interview platform that conducts personalized intervi
 
 ---
 
+
+## 🌐 Live Demo
+[https://fake-app.site](https://fake-app.site)
+
 ## 🔐 Login & Interview Selection
 
 Upon login, the user is presented with two flows:
@@ -86,11 +90,8 @@ A comprehensive dashboard is generated post-interview:
 
 
 
-
-## 🚀 Getting Started
-
- **Visit Web Interface**
-   Open your browser at `https://fake-app.site/`
-
+   
+📬 Contact
+For questions or support, reach out to: [your-email@example.com]
 ---
 
